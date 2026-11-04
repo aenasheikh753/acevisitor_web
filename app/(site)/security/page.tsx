@@ -16,7 +16,7 @@ export default async function SecurityPage() {
       <Section className="!pt-0">
         <Container>
           <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-            <ImageSlot alt={content.heroImageAlt} aspectRatio="1.25 / 1" />
+            <ImageSlot src="/images/security/security-governance.webp" alt={content.heroImageAlt} aspectRatio="1.25 / 1" />
             <SectionHeading
               eyebrow={content.intro.eyebrow}
               title={content.intro.title}

@@ -43,6 +43,7 @@ export default function GalleryCarousel({ content }: { content: GalleryContent }
           </div>
           <div id="gallery-slide" role="tabpanel" className="min-w-0">
             <ImageSlot
+              src={activeSlide.src}
               alt={activeSlide.alt}
               aspectRatio="1.55 / 1"
               className="transition duration-300"

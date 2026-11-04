@@ -23,7 +23,11 @@ export default function GalleryPreview({ content }: { content: HomeContent }) {
           </Button>
         </div>
         <div className="mt-10">
-          <ImageSlot alt={gallery.imageAlt} aspectRatio="2.1 / 1" />
+          <ImageSlot
+            src="/images/home/gallery-preview.webp"
+            alt={gallery.imageAlt}
+            aspectRatio="2.1 / 1"
+          />
         </div>
       </Container>
     </Section>

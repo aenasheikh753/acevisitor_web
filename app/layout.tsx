@@ -22,6 +22,9 @@ export async function generateMetadata(): Promise<Metadata> {
       template: navContent.metadataTemplate,
     },
     description: navContent.metadataDescription,
+    icons: {
+      icon: "/images/acevisitor-logo.png",
+    },
   };
 }
 

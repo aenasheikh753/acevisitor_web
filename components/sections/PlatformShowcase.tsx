@@ -24,7 +24,7 @@ export default function PlatformShowcase({ content }: { content: HomeContent }) 
               ))}
             </div>
           </div>
-          <ImageSlot alt={showcase.imageAlt} aspectRatio="1 / 1" />
+          <ImageSlot src="/images/home/platform-showcase.webp" alt={showcase.imageAlt} aspectRatio="1 / 1" />
         </div>
       </Container>
     </Section>

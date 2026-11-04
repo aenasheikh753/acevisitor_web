@@ -34,6 +34,7 @@ export default function HomeHero({ content }: { content: HomeContent }) {
         <div className="relative">
           <div aria-hidden="true" className="absolute -inset-8 rounded-button bg-cyan/10 blur-3xl" />
           <ImageSlot
+            src="/images/home/hero-dashboard.webp"
             alt={content.heroImageAlt}
             aspectRatio="1.12 / 1"
             className="relative shadow-glow"

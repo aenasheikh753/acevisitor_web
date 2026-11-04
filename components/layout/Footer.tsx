@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import Container from "@/components/ui/Container";
 import IconBox from "@/components/ui/IconBox";
 import type { FooterContent } from "@/lib/types";
@@ -15,9 +16,13 @@ export default function Footer({ content, brand }: FooterProps) {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr]">
           <div className="max-w-xs">
             <Link href="/" className="inline-flex items-center gap-2.5">
-              <span className="flex h-9 w-9 items-center justify-center rounded-md bg-lime text-lime-ink">
-                <IconBox icon="door" size="sm" />
-              </span>
+              <Image
+                src="/images/acevisitor-logo.png"
+                alt="AceVisitor logo"
+                width={36}
+                height={36}
+                className="h-9 w-9 shrink-0 rounded-md object-cover"
+              />
               <span className="font-heading text-lg font-semibold tracking-tight text-copy">{brand}</span>
             </Link>
             <p className="mt-4 text-sm leading-6 text-muted">{content.summary}</p>

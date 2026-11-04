@@ -17,7 +17,7 @@ export default async function PlatformPage() {
       <PageHero {...content.hero} />
       <Section className="!pt-0">
         <Container>
-          <ImageSlot alt={content.heroImageAlt} aspectRatio="2 / 1" />
+          <ImageSlot src="/images/platform/platform-overview.webp" alt={content.heroImageAlt} aspectRatio="2 / 1" />
         </Container>
       </Section>
       <Section tone="light">
@@ -50,14 +50,19 @@ export default async function PlatformPage() {
                 ))}
               </div>
             </div>
-            <ImageSlot alt={content.liveView.imageAlt} aspectRatio="1.12 / 1" />
+            <ImageSlot src="/images/platform/front-desk-live-view.webp" alt={content.liveView.imageAlt} aspectRatio="1.12 / 1" />
           </div>
         </Container>
       </Section>
       <Section tone="light">
         <Container>
           <div className="grid items-center gap-12 lg:grid-cols-2">
-            <ImageSlot alt={content.kiosk.imageAlt} aspectRatio="1.12 / 1" className="border-slate-ink/10" />
+            <ImageSlot
+              src="/images/platform/kiosk-and-badge.webp"
+              alt={content.kiosk.imageAlt}
+              aspectRatio="1.12 / 1"
+              className="border-slate-ink/10"
+            />
             <div>
               <SectionHeading
                 eyebrow={content.kiosk.eyebrow}

@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import {
   MessageCircle,
   RotateCcw,
   Send,
   X,
 } from "lucide-react";
-import Button from "@/components/ui/Button";
-import IconBox from "@/components/ui/IconBox";
 import { sendChatMessage } from "@/lib/api/forms";
 import type { ChatContent } from "@/lib/types";
 
@@ -83,8 +82,7 @@ export default function ChatWidget({ content }: { content: ChatContent }) {
     }
   }
 
-  function sendMessage(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function sendMessage() {
     const text = input.trim();
     if (!text || isTyping) return;
 
@@ -119,37 +117,33 @@ export default function ChatWidget({ content }: { content: ChatContent }) {
           className="flex h-full flex-col overflow-hidden rounded-xl border border-slate-ink/10 bg-mist text-slate-ink shadow-card"
         >
           <header className="flex shrink-0 items-center gap-3 bg-ink px-4 py-4 text-copy">
-            <span
-              role="img"
-              aria-label={content.logoLabel}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-lime text-lime-ink"
-            >
-              <IconBox icon="door" />
-            </span>
+            <Image
+              src="/images/acevisitor-logo.png"
+              alt={`${content.logoLabel} logo`}
+              width={40}
+              height={40}
+              className="h-10 w-10 shrink-0 rounded-md object-cover"
+            />
             <div className="min-w-0 flex-1">
               <h2 className="truncate text-sm font-semibold">{content.headerTitle}</h2>
               <p className="mt-1 truncate text-xs text-muted">{content.headerSubtitle}</p>
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
+            <button
+              type="button"
               aria-label={content.resetLabel}
               onClick={clearMessages}
-              className="flex h-9 min-h-9 w-9 shrink-0 items-center justify-center p-0 text-copy hover:bg-copy/10 hover:translate-y-0"
-              icon={<RotateCcw aria-hidden="true" className="block h-4 w-4 shrink-0" />}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-copy transition hover:bg-copy/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan"
             >
-              <span className="sr-only">{content.resetTitle}</span>
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
+              <RotateCcw className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
               aria-label={content.closeLabel}
               onClick={() => setIsOpen(false)}
-              className="flex h-9 min-h-9 w-9 shrink-0 items-center justify-center p-0 text-copy hover:bg-copy/10 hover:translate-y-0"
-              icon={<X aria-hidden="true" className="block h-5 w-5 shrink-0" />}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-copy transition hover:bg-copy/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan"
             >
-              <span className="sr-only">{content.closeLabel}</span>
-            </Button>
+              <X className="h-5 w-5" aria-hidden="true" />
+            </button>
           </header>
 
           <div
@@ -189,7 +183,10 @@ export default function ChatWidget({ content }: { content: ChatContent }) {
           </div>
 
           <form
-            onSubmit={sendMessage}
+            onSubmit={(event) => {
+              event.preventDefault();
+              sendMessage();
+            }}
             className="flex shrink-0 items-center gap-2 border-t border-slate-ink/10 bg-mist p-3"
           >
             <label htmlFor="acevisitor-chat-input" className="sr-only">
@@ -203,42 +200,32 @@ export default function ChatWidget({ content }: { content: ChatContent }) {
               placeholder={content.inputPlaceholder}
               className="min-w-0 flex-1 rounded-button border border-slate-ink/10 bg-copy px-4 py-3 text-sm text-slate-ink placeholder:text-slate-ink/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan"
             />
-            <Button
-              type="submit"
-              variant="accent"
-              shape="circle"
-              size="sm"
+            <button
+              type="button"
+              onClick={sendMessage}
               disabled={!input.trim() || isTyping}
               aria-label={content.sendLabel}
-              className="flex h-11 min-h-11 w-11 shrink-0 items-center justify-center p-0 focus-visible:ring-offset-mist hover:translate-y-0"
-              icon={<Send aria-hidden="true" className="block h-4 w-4 shrink-0" />}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-lime text-lime-ink shadow-glow transition hover:brightness-105 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-mist"
             >
-              <span className="sr-only">{content.sendLabel}</span>
-            </Button>
+              <Send className="h-5 w-5" aria-hidden="true" />
+            </button>
           </form>
         </section>
       </div>
 
-      <Button
-        variant="accent"
-        size="lg"
-        shape="circle"
+      <button
+        type="button"
         aria-label={isOpen ? content.closeLabel : content.openLabel}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((open) => !open)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 min-h-14 w-14 shrink-0 items-center justify-center rounded-full p-0 leading-none text-[var(--color-accent-foreground)] shadow-card hover:translate-y-0"
-        icon={
-          isOpen ? (
-            <X aria-hidden="true" className="block h-6 w-6 shrink-0" />
-          ) : (
-            <MessageCircle aria-hidden="true" className="block h-6 w-6 shrink-0" />
-          )
-        }
+        className="fixed bottom-6 right-6 z-50 grid h-14 w-14 place-items-center rounded-full bg-lime text-lime-ink shadow-glow transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan"
       >
-        <span className="sr-only">
-          {isOpen ? content.closeLabel : content.openLabel}
-        </span>
-      </Button>
+        {isOpen ? (
+          <X className="h-6 w-6" aria-hidden="true" />
+        ) : (
+          <MessageCircle className="h-6 w-6" aria-hidden="true" />
+        )}
+      </button>
     </>
   );
 }

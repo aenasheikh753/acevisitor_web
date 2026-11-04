@@ -15,7 +15,7 @@ export default async function AboutPage() {
       <PageHero {...content.hero} />
       <Section className="!pt-0">
         <Container>
-          <ImageSlot alt={content.heroImageAlt} aspectRatio="2.1 / 1" />
+          <ImageSlot src="/images/about/acevisitor-team.webp" alt={content.heroImageAlt} aspectRatio="2.1 / 1" />
         </Container>
       </Section>
       <Section tone="light">

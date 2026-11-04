@@ -1,6 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
 import Button from "@/components/ui/Button";
-import IconBox from "@/components/ui/IconBox";
 import { getAuthContent, getNavContent } from "@/lib/api/content";
 
 const fieldClass =
@@ -15,9 +15,13 @@ export default async function LoginPage() {
   return (
     <div className="glass-card w-full max-w-md rounded-xl p-7 sm:p-10">
       <Link href="/" className="inline-flex items-center gap-2.5">
-        <span className="flex h-9 w-9 items-center justify-center rounded-md bg-lime text-lime-ink">
-          <IconBox icon="door" size="sm" />
-        </span>
+        <Image
+          src="/images/acevisitor-logo.png"
+          alt="AceVisitor logo"
+          width={36}
+          height={36}
+          className="h-9 w-9 shrink-0 rounded-md object-cover"
+        />
         <span className="font-heading text-lg font-semibold text-copy">{navContent.brand}</span>
       </Link>
       <p className="mt-9 text-xs font-bold uppercase tracking-[0.2em] text-cyan">{authContent.loginEyebrow}</p>

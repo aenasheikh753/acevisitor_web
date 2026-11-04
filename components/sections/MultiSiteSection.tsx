@@ -29,7 +29,11 @@ export default function MultiSiteSection({ content }: { content: HomeContent }) 
               </Button>
             </div>
           </div>
-          <ImageSlot alt={multiSite.imageAlt} aspectRatio="1.12 / 1" />
+          <ImageSlot
+            src="/images/home/multi-site-overview.webp"
+            alt={multiSite.imageAlt}
+            aspectRatio="1.12 / 1"
+          />
         </div>
       </Container>
     </Section>

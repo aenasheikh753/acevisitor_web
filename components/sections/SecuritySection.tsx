@@ -14,7 +14,12 @@ export default function SecuritySection({ content }: { content: HomeContent }) {
     <Section tone="light" id="security">
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-          <ImageSlot alt={security.imageAlt} aspectRatio="1.1 / 1" className="border-slate-ink/10" />
+          <ImageSlot
+            src="/images/home/security-controls.webp"
+            alt={security.imageAlt}
+            aspectRatio="1.1 / 1"
+            className="border-slate-ink/10"
+          />
           <div>
             <SectionHeading
               eyebrow={security.eyebrow}

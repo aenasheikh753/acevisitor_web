@@ -14,6 +14,7 @@ export const solutionsContent = {
     {
       eyebrow: "Distributed operations",
       title: "Multi-site programs",
+      imageSlug: "multi-site-programs",
       description:
         "Standardize the essential visitor experience across locations, while keeping site-level operations clear and practical.",
       imageAlt: "Enterprise teams monitoring visitor activity across multiple sites",
@@ -22,6 +23,7 @@ export const solutionsContent = {
     {
       eyebrow: "Third-party access",
       title: "Contractor and vendor access",
+      imageSlug: "contractor-vendor-access",
       description:
         "Bring recurring partners into a more organized arrival process with visit context, host coordination, and policy acknowledgement.",
       imageAlt: "Contractor check-in workflow with site policies and host coordination",
@@ -30,6 +32,7 @@ export const solutionsContent = {
     {
       eyebrow: "Daily welcome",
       title: "Front desk operations",
+      imageSlug: "front-desk-operations",
       description:
         "Reduce repetitive tasks and help reception teams deliver a thoughtful, professional welcome throughout the day.",
       imageAlt: "Reception team using a visitor management front desk dashboard",

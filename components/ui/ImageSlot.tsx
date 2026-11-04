@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 
 type ImageSlotProps = {
   src?: string;
@@ -13,13 +16,23 @@ export default function ImageSlot({
   aspectRatio = "16 / 10",
   className = "",
 }: ImageSlotProps) {
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const showImage = Boolean(src) && failedSrc !== src;
+
   return (
     <div
       className={`reveal relative isolate overflow-hidden rounded-xl border border-copy/10 bg-panel ${className}`}
       style={{ aspectRatio }}
     >
-      {src ? (
-        <Image src={src} alt={alt} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
+      {showImage && src ? (
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover"
+          onError={() => setFailedSrc(src)}
+        />
       ) : (
         <div
           role="img"

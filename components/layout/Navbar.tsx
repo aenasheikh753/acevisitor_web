@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Button from "@/components/ui/Button";
@@ -22,7 +23,7 @@ export default function Navbar({ content }: NavbarProps) {
   function getNavLinkClass(href: string) {
     return `relative inline-flex items-center whitespace-nowrap rounded-[10px] px-2 py-2 text-sm transition-colors duration-200 hover:bg-white/5 hover:text-[var(--color-nav-hover)] ${
       isActive(href)
-        ? "bg-white/10 font-medium text-[var(--color-nav-active)]"
+        ? "bg-white/10 font-medium text-[var(--color-primary)]"
         : "font-normal text-muted"
     }`;
   }
@@ -34,9 +35,13 @@ export default function Navbar({ content }: NavbarProps) {
         aria-label={content.navigationLabel}
       >
         <Link href="/" className="flex items-center gap-2.5" onClick={() => setIsOpen(false)}>
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-lime text-lime-ink">
-            <IconBox icon="door" size="sm" />
-          </span>
+          <Image
+            src="/images/acevisitor-logo.png"
+            alt="AceVisitor logo"
+            width={36}
+            height={36}
+            className="h-9 w-9 shrink-0 rounded-md object-cover"
+          />
           <span className="font-heading text-lg font-semibold tracking-tight text-[var(--color-primary)]">{content.brand}</span>
         </Link>
 
@@ -49,9 +54,6 @@ export default function Navbar({ content }: NavbarProps) {
               className={getNavLinkClass(link.href)}
             >
               {link.label}
-              {isActive(link.href) ? (
-                <span aria-hidden="true" className="absolute inset-x-2 bottom-0 h-0.5 bg-[var(--color-nav-active)]" />
-              ) : null}
             </Link>
           ))}
         </div>
@@ -63,9 +65,6 @@ export default function Navbar({ content }: NavbarProps) {
             className={getNavLinkClass("/login")}
           >
             {content.login}
-            {isActive("/login") ? (
-              <span aria-hidden="true" className="absolute inset-x-2 bottom-0 h-0.5 bg-[var(--color-nav-active)]" />
-            ) : null}
           </Link>
           <Button href="/contact" variant="accent" size="sm">{content.demo}</Button>
         </div>
@@ -97,9 +96,6 @@ export default function Navbar({ content }: NavbarProps) {
                 className={`${getNavLinkClass(link.href)} w-full px-3 py-3 ${isActive(link.href) ? "bg-white/10" : ""}`}
               >
                 {link.label}
-                {isActive(link.href) ? (
-                  <span aria-hidden="true" className="absolute inset-x-3 bottom-1 h-0.5 bg-[var(--color-nav-active)]" />
-                ) : null}
               </Link>
             ))}
             <Link
@@ -109,9 +105,6 @@ export default function Navbar({ content }: NavbarProps) {
               className={`${getNavLinkClass("/login")} w-full px-3 py-3 ${isActive("/login") ? "bg-white/10" : ""}`}
             >
               {content.login}
-              {isActive("/login") ? (
-                <span aria-hidden="true" className="absolute inset-x-3 bottom-1 h-0.5 bg-[var(--color-nav-active)]" />
-              ) : null}
             </Link>
             <div className="mt-2">
               <Button href="/contact" variant="accent" fullWidth>{content.demo}</Button>

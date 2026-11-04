@@ -29,6 +29,7 @@ export default async function SolutionsPage() {
               </div>
             </div>
             <ImageSlot
+              src={`/images/solutions/${row.imageSlug}.webp`}
               alt={row.imageAlt}
               aspectRatio="1.18 / 1"
               className={index % 2 === 0 ? "border-slate-ink/10" : ""}
