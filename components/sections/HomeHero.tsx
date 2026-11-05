@@ -1,6 +1,6 @@
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
-import ImageSlot from "@/components/ui/ImageSlot";
+import HeroVisual from "@/components/sections/HeroVisual";
 import IconBox from "@/components/ui/IconBox";
 import type { HomeContent } from "@/lib/types";
 
@@ -31,20 +31,8 @@ export default function HomeHero({ content }: { content: HomeContent }) {
             {hero.proofLine}
           </div>
         </div>
-        <div className="relative min-w-0 lg:h-full">
-          <div aria-hidden="true" className="absolute -inset-8 rounded-button bg-cyan/10 blur-3xl" />
-          <ImageSlot
-            src="/images/home/hero-dashboard.jpg"
-            alt={content.heroImageAlt}
-            aspectRatio={null}
-            className="relative aspect-[1.12/1] shadow-glow lg:h-full lg:aspect-auto"
-          />
-          <div className="glass-card absolute -bottom-5 left-4 flex items-center gap-3 rounded-md px-4 py-3 sm:left-8">
-            <span className="flex h-9 w-9 items-center justify-center rounded-sm bg-positive/15 text-positive">
-              <IconBox icon="user-check" size="sm" />
-            </span>
-            <span className="text-xs font-semibold text-copy">{content.journey.steps[6].title}</span>
-          </div>
+        <div className="relative min-w-0 lg:flex lg:items-center">
+          <HeroVisual content={content.heroVisual} />
         </div>
       </Container>
     </section>

@@ -85,11 +85,11 @@ export const galleryContent: GalleryContent = {
       description:
         "Manage users, roles, sites, and visitor program settings in one place.",
       image: {
-        src: "/images/gallery/management-console.webp",
+        src: "/images/gallery/management-console.png",
         alt: "AceVisitor administrator management console",
       },
       thumbnail: {
-        src: "/images/gallery/management-console.webp",
+        src: "/images/gallery/management-console.png",
         alt: "Preview of the management console",
       },
       isVisible: true,

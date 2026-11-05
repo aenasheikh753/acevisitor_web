@@ -68,6 +68,54 @@ export type PageHeroContent = {
   proofLine?: string;
 };
 
+export type HeroVisualStatus = "approved" | "checked-in" | "expected";
+
+export type HeroVisualStat = {
+  label: string;
+  value: string;
+  trend: string;
+  trendDirection: "up" | "down" | "flat";
+};
+
+export type HeroVisualVisitor = {
+  initials: string;
+  name: string;
+  detail: string;
+  status: HeroVisualStatus;
+  statusLabel: string;
+};
+
+export type HeroVisualContent = {
+  srDescription: string;
+  windowTitle: string;
+  liveLabel: string;
+  stats: HeroVisualStat[];
+  chartTitle: string;
+  chartCaption: string;
+  chartBars: number[];
+  visitorsTitle: string;
+  visitors: HeroVisualVisitor[];
+  badge: {
+    label: string;
+    name: string;
+    company: string;
+    host: string;
+    valid: string;
+    badgeId: string;
+  };
+  arrival: {
+    label: string;
+    name: string;
+    company: string;
+    timing: string;
+    location: string;
+    ndaLabel: string;
+    approveLabel: string;
+    declineLabel: string;
+  };
+  toast: string;
+};
+
 export type GalleryItem = {
   id: string;
   order: number;

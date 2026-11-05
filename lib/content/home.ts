@@ -1,4 +1,4 @@
-import type { FeatureContent, IconName, PageHeroContent } from "@/lib/types";
+import type { FeatureContent, HeroVisualContent, IconName, PageHeroContent } from "@/lib/types";
 
 export const homeContent = {
   hero: {
@@ -12,6 +12,45 @@ export const homeContent = {
   } satisfies PageHeroContent,
   heroImageAlt:
     "AceVisitor operations dashboard showing today's arrivals, site activity, and visitor status",
+  heroVisual: {
+    srDescription:
+      "Illustration of the AceVisitor site overview: live visitor counts, today's arrival activity, a printed visitor badge, and a host approving an arrival.",
+    windowTitle: "Site overview · Dallas HQ",
+    liveLabel: "Live",
+    stats: [
+      { label: "On site", value: "42", trend: "+6", trendDirection: "up" },
+      { label: "Expected", value: "18", trend: "+3", trendDirection: "up" },
+      { label: "Pending", value: "3", trend: "−2", trendDirection: "down" },
+    ],
+    chartTitle: "Arrivals today",
+    chartCaption: "07:00 – 18:00",
+    chartBars: [34, 52, 44, 72, 63, 88, 58, 76, 49, 66, 82, 60],
+    visitorsTitle: "Recent visitors",
+    visitors: [
+      { initials: "AR", name: "Amira Rahman", detail: "Meeting · Main entrance", status: "approved", statusLabel: "Approved" },
+      { initials: "DK", name: "Daniel Kowalski", detail: "Contractor · Loading dock", status: "checked-in", statusLabel: "Checked in" },
+      { initials: "LM", name: "Lena Morales", detail: "Interview · Lobby B", status: "expected", statusLabel: "Expected" },
+    ],
+    badge: {
+      label: "Visitor",
+      name: "Amira Rahman",
+      company: "Northwind Partners",
+      host: "Host: James Wilson",
+      valid: "Valid 09:42 – 18:00",
+      badgeId: "#V-10248",
+    },
+    arrival: {
+      label: "Visitor arrival",
+      name: "Robert Smith",
+      company: "Northstar Technology",
+      timing: "Arrived 09:42 · Meeting 10:00",
+      location: "Dallas HQ · Main lobby",
+      ndaLabel: "NDA signed",
+      approveLabel: "Approve",
+      declineLabel: "Decline",
+    },
+    toast: "Host approved",
+  } satisfies HeroVisualContent,
   journey: {
     eyebrow: "One connected experience",
     title: "A better visit, from first invite to final sign-out.",
