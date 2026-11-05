@@ -10,7 +10,8 @@
   --color-primary: oklch(78.9741% 0.137429 211.682);
   --color-nav-hover: var(--color-primary);
   --color-nav-active: var(--color-primary);
-  --color-accent: #C1FF72;
+  /* --color-accent: #C1FF72; */  
+  --color-accent: #6a8a3f;
   --color-accent-foreground: var(--color-bg);
   --color-light-bg: #f4f9fb;
   --color-light-text: #122a38;
