@@ -5,6 +5,7 @@ import ImageSlot from "@/components/ui/ImageSlot";
 import PageHero from "@/components/ui/PageHero";
 import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
+import SplitLayout from "@/components/ui/SplitLayout";
 import { getAboutContent } from "@/lib/api/content";
 
 export default async function AboutPage() {
@@ -13,28 +14,33 @@ export default async function AboutPage() {
   return (
     <>
       <PageHero {...content.hero} />
-      <Section className="!pt-0">
+      <Section tone="dark-1">
         <Container>
           <ImageSlot src="/images/about/acevisitor-team.webp" alt={content.heroImageAlt} aspectRatio="2.1 / 1" />
         </Container>
       </Section>
-      <Section tone="light">
+      <Section tone="light-1">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-            <SectionHeading
-              eyebrow={content.story.eyebrow}
-              title={content.story.title}
-              tone="light"
-            />
-            <div className="space-y-5">
-              {content.story.paragraphs.map((paragraph) => (
-                <p key={paragraph} className="text-base leading-8 text-slate-ink/75">{paragraph}</p>
-              ))}
-            </div>
-          </div>
+          <SplitLayout
+            columns="minmax(0, 0.8fr) minmax(0, 1.2fr)"
+            start={
+              <SectionHeading
+                eyebrow={content.story.eyebrow}
+                title={content.story.title}
+                tone="light"
+              />
+            }
+            end={
+              <div className="space-y-5">
+                {content.story.paragraphs.map((paragraph) => (
+                  <p key={paragraph} className="text-base leading-8 text-slate-ink/75">{paragraph}</p>
+                ))}
+              </div>
+            }
+          />
         </Container>
       </Section>
-      <Section>
+      <Section tone="dark-2">
         <Container>
           <div className="grid gap-4 md:grid-cols-3">
             {content.principles.map((principle) => <FeatureCard key={principle.title} {...principle} />)}

@@ -6,6 +6,7 @@ import ImageSlot from "@/components/ui/ImageSlot";
 import PageHero from "@/components/ui/PageHero";
 import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
+import SplitLayout from "@/components/ui/SplitLayout";
 import IconBox from "@/components/ui/IconBox";
 import { getPlatformContent } from "@/lib/api/content";
 
@@ -15,12 +16,12 @@ export default async function PlatformPage() {
   return (
     <>
       <PageHero {...content.hero} />
-      <Section className="!pt-0">
+      <Section tone="dark-1">
         <Container>
-          <ImageSlot src="/images/platform/platform-overview.webp" alt={content.heroImageAlt} aspectRatio="2 / 1" />
+          <ImageSlot src="/images/platform/platform-overview.png" alt={content.heroImageAlt} aspectRatio="2 / 1" />
         </Container>
       </Section>
-      <Section tone="light">
+      <Section tone="light-1">
         <Container>
           <SectionHeading
             eyebrow={content.capabilitiesEyebrow}
@@ -35,51 +36,57 @@ export default async function PlatformPage() {
           </div>
         </Container>
       </Section>
-      <Section>
+      <Section tone="dark-2">
         <Container>
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <div>
-              <SectionHeading
-                eyebrow={content.liveView.eyebrow}
-                title={content.liveView.title}
-                description={content.liveView.description}
-              />
-              <div className="mt-8 grid gap-3">
-                {content.liveView.cards.map((card) => (
-                  <FeatureCard key={card.title} {...card} className="p-5" />
-                ))}
-              </div>
-            </div>
-            <ImageSlot src="/images/platform/front-desk-live-view.webp" alt={content.liveView.imageAlt} aspectRatio="1.12 / 1" />
-          </div>
+          <SplitLayout
+            start={
+              <>
+                <SectionHeading
+                  eyebrow={content.liveView.eyebrow}
+                  title={content.liveView.title}
+                  description={content.liveView.description}
+                />
+                <div className="mt-8 grid gap-3">
+                  {content.liveView.cards.map((card) => (
+                    <FeatureCard key={card.title} {...card} className="p-5" />
+                  ))}
+                </div>
+              </>
+            }
+            end={<ImageSlot src="/images/platform/front-desk-live-view.webp" alt={content.liveView.imageAlt} aspectRatio="1.12 / 1" />}
+          />
         </Container>
       </Section>
-      <Section tone="light">
+      <Section tone="light-2">
         <Container>
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <ImageSlot
-              src="/images/platform/kiosk-and-badge.webp"
-              alt={content.kiosk.imageAlt}
-              aspectRatio="1.12 / 1"
-              className="border-slate-ink/10"
-            />
-            <div>
-              <SectionHeading
-                eyebrow={content.kiosk.eyebrow}
-                title={content.kiosk.title}
-                description={content.kiosk.description}
-                tone="light"
+          <SplitLayout
+            start={
+              <ImageSlot
+                src="/images/platform/kiosk-and-badge.webp"
+                alt={content.kiosk.imageAlt}
+                aspectRatio="1.12 / 1"
+                className="border-slate-ink/10"
               />
-              <div className="mt-7">
-                <Button href="/gallery" variant="outline" tone="light" icon={<IconBox icon="arrow-right" size="sm" />}>
-                  {content.hero.actionLabel}
-                </Button>
-              </div>
-            </div>
-          </div>
+            }
+            end={
+              <>
+                <SectionHeading
+                  eyebrow={content.kiosk.eyebrow}
+                  title={content.kiosk.title}
+                  description={content.kiosk.description}
+                  tone="light"
+                />
+                <div className="mt-7">
+                  <Button href="/gallery" variant="outline" tone="light" icon={<IconBox icon="arrow-right" size="sm" />}>
+                    {content.hero.actionLabel}
+                  </Button>
+                </div>
+              </>
+            }
+          />
         </Container>
       </Section>
-      <Section>
+      <Section tone="dark-3">
         <Container>
           <SectionHeading
             eyebrow={content.governance.eyebrow}

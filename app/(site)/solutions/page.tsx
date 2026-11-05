@@ -4,40 +4,59 @@ import Container from "@/components/ui/Container";
 import FeatureCard from "@/components/ui/FeatureCard";
 import ImageSlot from "@/components/ui/ImageSlot";
 import PageHero from "@/components/ui/PageHero";
-import Section from "@/components/ui/Section";
+import Section, { contentTone, type SectionTone } from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
+import SplitLayout from "@/components/ui/SplitLayout";
 import { getSolutionsContent } from "@/lib/api/content";
+
+/** Alternating backgrounds for the solution rows: light / dark, cycling tints. */
+const rowTones: SectionTone[] = ["light-1", "dark-1", "light-2", "dark-2"];
 
 export default async function SolutionsPage() {
   const content = await getSolutionsContent();
+  const lastRowTone = rowTones[(content.rows.length - 1) % rowTones.length];
+  const outcomesTone: SectionTone = lastRowTone === "light-1" ? "light-2" : "light-1";
 
   return (
     <>
       <PageHero {...content.hero} />
-      {content.rows.map((row, index) => (
-        <Section key={row.title} tone={index % 2 === 0 ? "light" : "dark"}>
-          <Container className={`grid items-center gap-10 lg:grid-cols-2 ${index % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}>
-            <div>
-              <SectionHeading
-                eyebrow={row.eyebrow}
-                title={row.title}
-                description={row.description}
-                tone={index % 2 === 0 ? "light" : "dark"}
+      {content.rows.map((row, index) => {
+        const tone = rowTones[index % rowTones.length];
+        const childTone = contentTone(tone);
+
+        return (
+          <Section key={row.title} tone={tone}>
+            <Container>
+              <SplitLayout
+                reverse={index % 2 === 1}
+                gap="2.5rem"
+                start={
+                  <>
+                    <SectionHeading
+                      eyebrow={row.eyebrow}
+                      title={row.title}
+                      description={row.description}
+                      tone={childTone}
+                    />
+                    <div className="mt-7">
+                      <CheckList items={row.checklist} tone={childTone} />
+                    </div>
+                  </>
+                }
+                end={
+                  <ImageSlot
+                    src={`/images/solutions/${row.imageSlug}.webp`}
+                    alt={row.imageAlt}
+                    aspectRatio="1.18 / 1"
+                    className={childTone === "light" ? "border-slate-ink/10" : ""}
+                  />
+                }
               />
-              <div className="mt-7">
-                <CheckList items={row.checklist} tone={index % 2 === 0 ? "light" : "dark"} />
-              </div>
-            </div>
-            <ImageSlot
-              src={`/images/solutions/${row.imageSlug}.webp`}
-              alt={row.imageAlt}
-              aspectRatio="1.18 / 1"
-              className={index % 2 === 0 ? "border-slate-ink/10" : ""}
-            />
-          </Container>
-        </Section>
-      ))}
-      <Section tone="light">
+            </Container>
+          </Section>
+        );
+      })}
+      <Section tone={outcomesTone}>
         <Container>
           <SectionHeading
             eyebrow={content.outcomes.eyebrow}

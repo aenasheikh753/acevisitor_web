@@ -12,6 +12,7 @@ const imageHostUrl = configuredImageHost
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
+    qualities: [75, 90],
     remotePatterns: imageHostUrl
       ? [
           {

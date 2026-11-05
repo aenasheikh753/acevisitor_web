@@ -10,10 +10,23 @@
   --color-primary: oklch(78.9741% 0.137429 211.682);
   --color-nav-hover: var(--color-primary);
   --color-nav-active: var(--color-primary);
-  /* --color-accent: #C1FF72; */  
-  --color-accent: #6a8a3f;
+  --color-accent: #6A8A3F;
   --color-accent-foreground: var(--color-bg);
   --color-light-bg: #f4f9fb;
+  /* Section backgrounds: hero/base uses --color-bg; neighbours alternate between these. */
+  --color-section-1: #072b36;
+  --color-section-2: #0a2537;
+  --color-section-3: #0c313b;
+  --color-section-light-1: #f4f9fb;
+  --color-section-light-2: #e8f2f5;
+  --color-section-cta: #03171e;
+  --color-footer: #021218;
+  --color-section-edge-dark: rgba(165, 198, 215, 0.08);
+  --color-section-edge-light: rgba(18, 42, 56, 0.07);
+  /* Card hover accents (accent family). */
+  --color-card-hover-border: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  --color-card-hover-icon-bg: color-mix(in srgb, var(--color-accent) 15%, transparent);
+  --shadow-card-hover: 0 18px 40px -18px rgba(2, 15, 25, 0.28);
   --color-light-text: #122a38;
   --color-success: #58d6a5;
   --color-warning: #f6c76b;
@@ -161,6 +174,71 @@ textarea {
   color: var(--color-light-text);
 }
 
+/* Section tones: each tone sets its own background; text colour follows dark/light. */
+.section-tone-dark-1,
+.section-tone-dark-2,
+.section-tone-dark-3,
+.section-tone-cta {
+  color: var(--color-text);
+  box-shadow: inset 0 1px 0 var(--color-section-edge-dark);
+}
+
+.section-tone-light-1,
+.section-tone-light-2 {
+  color: var(--color-light-text);
+  box-shadow: inset 0 1px 0 var(--color-section-edge-light);
+}
+
+.section-tone-dark-1 {
+  background: linear-gradient(180deg, var(--color-section-1), color-mix(in srgb, var(--color-section-1) 85%, var(--color-bg)));
+}
+
+.section-tone-dark-2 {
+  background: linear-gradient(180deg, var(--color-section-2), color-mix(in srgb, var(--color-section-2) 85%, var(--color-bg)));
+}
+
+.section-tone-dark-3 {
+  background: linear-gradient(180deg, var(--color-section-3), color-mix(in srgb, var(--color-section-3) 85%, var(--color-bg)));
+}
+
+.section-tone-light-1 {
+  background: var(--color-section-light-1);
+}
+
+.section-tone-light-2 {
+  background: var(--color-section-light-2);
+}
+
+.section-tone-cta {
+  background: var(--color-section-cta);
+}
+
+.footer-surface {
+  background: var(--color-footer);
+}
+
+/* Shared two-column layout: stacks below lg, vertically centred columns from lg up. */
+.split-grid {
+  display: grid;
+  gap: var(--split-gap-mobile, 2.5rem);
+  align-items: center;
+}
+
+.split-grid > * {
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .split-grid {
+    grid-template-columns: var(--split-cols, minmax(0, 1fr) minmax(0, 1fr));
+    gap: var(--split-gap, 3rem);
+  }
+
+  .split-grid[data-reverse="true"] > :first-child {
+    order: 2;
+  }
+}
+
 .glass-card {
   border: 1px solid var(--color-border);
   background: linear-gradient(
@@ -207,6 +285,74 @@ textarea {
     linear-gradient(90deg, color-mix(in srgb, var(--color-text) 4.5%, transparent) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: linear-gradient(to bottom, black, transparent 90%);
+}
+
+/* Home: capability / arrival cards hover in the accent family. */
+.accent-hover-card {
+  transition:
+    translate 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.accent-hover-card:hover,
+.accent-hover-card:focus-within {
+  translate: 0 -4px;
+  border-color: var(--color-card-hover-border);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.accent-hover-card .feature-icon {
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+.accent-hover-card:hover .feature-icon,
+.accent-hover-card:focus-within .feature-icon {
+  background-color: var(--color-card-hover-icon-bg);
+  color: var(--color-accent);
+}
+
+/* Thin gradient border (cyan → accent) drawn with a masked pseudo element. */
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--color-primary) 45%, transparent),
+    transparent 45%,
+    color-mix(in srgb, var(--color-accent) 40%, transparent)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Soft cyan glow behind section visuals. */
+.visual-glow {
+  background: radial-gradient(
+    ellipse 55% 50% at 55% 45%,
+    color-mix(in srgb, var(--color-primary) 18%, transparent),
+    transparent 72%
+  );
+}
+
+/* Framed raster media (shown at natural aspect, never stretched). */
+.framed-media {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-float);
 }
 
 /* Home hero product visual */

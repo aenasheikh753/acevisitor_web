@@ -1,4 +1,13 @@
-import type { FeatureContent, HeroVisualContent, IconName, PageHeroContent } from "@/lib/types";
+import type {
+  FeatureContent,
+  GalleryVisualContent,
+  HeroVisualContent,
+  IconName,
+  MultiSiteVisualContent,
+  PageHeroContent,
+  SecurityVisualContent,
+  ShowcaseVisualContent,
+} from "@/lib/types";
 
 export const homeContent = {
   hero: {
@@ -95,6 +104,32 @@ export const homeContent = {
       { icon: "door", title: "Guided kiosk check-in", description: "An intuitive self-service flow for guests at the door." },
       { icon: "badge", title: "On-brand badges", description: "Clear visitor identification with the details your team needs." },
     ] satisfies FeatureContent[],
+    visual: {
+      srDescription:
+        "Illustration of a self-service check-in kiosk, the front desk console listing today's arrivals, and a printed visitor badge.",
+      kiosk: {
+        greeting: "Welcome",
+        subtitle: "Check in for your visit",
+        actions: ["I have an invite", "Scan QR code", "Walk-in visitor"],
+      },
+      console: {
+        title: "Front desk · Today",
+        caption: "4 arrivals",
+        stats: [
+          { label: "On site", value: "42" },
+          { label: "Expected", value: "18" },
+          { label: "Pending", value: "3" },
+        ],
+        rows: [
+          { initials: "AR", name: "Amira Rahman", host: "James Wilson", time: "09:42", status: "checked-in", statusLabel: "Checked in" },
+          { initials: "RS", name: "Robert Smith", host: "Priya Raman", time: "10:00", status: "approved", statusLabel: "Approved" },
+          { initials: "LM", name: "Lena Morales", host: "Maria Gomez", time: "10:30", status: "expected", statusLabel: "Expected" },
+          { initials: "DK", name: "Daniel Kowalski", host: "Facilities", time: "11:15", status: "expected", statusLabel: "Expected" },
+        ],
+      },
+      badge: { label: "Visitor", name: "Amira Rahman", company: "Northwind Partners", host: "Host: James Wilson" },
+      chips: { checkedIn: "Checked in", hostNotified: "Host notified" },
+    } satisfies ShowcaseVisualContent,
   },
   security: {
     eyebrow: "Built for responsible operations",
@@ -109,6 +144,29 @@ export const homeContent = {
     ] satisfies FeatureContent[],
     actionLabel: "Explore security",
     actionHref: "/security",
+    visual: {
+      srDescription:
+        "Illustration of the AceVisitor access panel: role permissions, separated organization workspaces, and an audit timeline.",
+      title: "Access & audit",
+      subtitle: "Dallas HQ workspace",
+      mfaLabel: "MFA enforced",
+      rolesTitle: "Roles",
+      roles: [
+        { label: "Administrator", access: "Full access", granted: true },
+        { label: "Reception", access: "Check-in & badges", granted: true },
+        { label: "Host", access: "Own visitors only", granted: false },
+      ],
+      workspacesTitle: "Workspaces",
+      workspaces: ["Northwind Org", "Contoso Org"],
+      isolationLabel: "Isolated",
+      auditTitle: "Audit trail",
+      audit: [
+        { time: "09:42", actor: "Reception", event: "Checked in Amira Rahman", tone: "positive" },
+        { time: "09:44", actor: "Host", event: "Approved visit request", tone: "primary" },
+        { time: "10:05", actor: "Admin", event: "Updated badge policy", tone: "warning" },
+      ],
+      chip: "Audit log exported",
+    } satisfies SecurityVisualContent,
   },
   multiSite: {
     eyebrow: "Ready to scale with you",
@@ -123,6 +181,16 @@ export const homeContent = {
     ],
     actionLabel: "See multi-site solutions",
     actionHref: "/solutions",
+    visual: {
+      liveLabel: "Live",
+      title: "Across all sites",
+      counters: [
+        { label: "Sites online", value: 24 },
+        { label: "Visitors today", value: 1284 },
+        { label: "Avg. check-in", value: 38, suffix: "s" },
+      ],
+      chip: "All sites synced",
+    } satisfies MultiSiteVisualContent,
   },
   arrival: {
     eyebrow: "Meet guests where they arrive",
@@ -142,6 +210,13 @@ export const homeContent = {
     imageAlt: "AceVisitor visitor management product interface preview",
     actionLabel: "Explore the gallery",
     actionHref: "/gallery",
+    visual: {
+      chips: [
+        { icon: "door", label: "Kiosk check-in", detail: "Completed in 32s" },
+        { icon: "badge", label: "Badge printed", detail: "Lobby printer" },
+        { icon: "user-check", label: "Host approved", detail: "James Wilson" },
+      ],
+    } satisfies GalleryVisualContent,
   },
   cta: {
     title: "Make every arrival a better experience.",

@@ -13,7 +13,7 @@ Unsplash License; see <https://unsplash.com/license>.
 | `home/security-controls.webp` | — | source: client reference design (AI-generated, approved by client) | Client-owned |
 | `home/multi-site-overview.webp` | — | source: client reference design (AI-generated, approved by client) | Client-owned |
 | `home/gallery-preview.webp` | — | source: client reference design (AI-generated, approved by client) | Client-owned |
-| `platform/platform-overview.webp` | — | source: client reference design (AI-generated, approved by client) | Client-owned |
+| `platform/platform-overview.png` | — | source: client reference design (AI-generated, approved by client) | Client-owned |
 | `platform/front-desk-live-view.webp` | path digital | https://unsplash.com/photos/black-and-silver-laptop-computer-tR0jvlsmCuQ | Unsplash License |
 | `platform/kiosk-and-badge.webp` | Karollyne Videira Hubert | https://unsplash.com/photos/a-group-of-people-standing-around-a-check-in-counter-yclvXWBlqeE | Unsplash License |
 | `solutions/multi-site-programs.webp` | Declan Sun | https://unsplash.com/photos/modern-building-courtyard-in-shanghai-RZxpuAwEMlY | Unsplash License |

@@ -11,7 +11,7 @@ type FooterProps = {
 
 export default function Footer({ content, brand }: FooterProps) {
   return (
-    <footer className="border-t border-line bg-ink pb-8 pt-14">
+    <footer className="footer-surface border-t border-line pb-8 pt-14">
       <Container>
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr]">
           <div className="max-w-xs">

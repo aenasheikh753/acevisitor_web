@@ -70,6 +70,47 @@ export type PageHeroContent = {
 
 export type HeroVisualStatus = "approved" | "checked-in" | "expected";
 
+export type VisualTone = "positive" | "primary" | "warning";
+
+export type ShowcaseVisualContent = {
+  srDescription: string;
+  kiosk: { greeting: string; subtitle: string; actions: string[] };
+  console: {
+    title: string;
+    caption: string;
+    stats: { label: string; value: string }[];
+    rows: { initials: string; name: string; host: string; time: string; status: HeroVisualStatus; statusLabel: string }[];
+  };
+  badge: { label: string; name: string; company: string; host: string };
+  chips: { checkedIn: string; hostNotified: string };
+};
+
+export type SecurityVisualContent = {
+  srDescription: string;
+  title: string;
+  subtitle: string;
+  mfaLabel: string;
+  rolesTitle: string;
+  roles: { label: string; access: string; granted: boolean }[];
+  workspacesTitle: string;
+  workspaces: string[];
+  isolationLabel: string;
+  auditTitle: string;
+  audit: { time: string; actor: string; event: string; tone: VisualTone }[];
+  chip: string;
+};
+
+export type MultiSiteVisualContent = {
+  liveLabel: string;
+  title: string;
+  counters: { label: string; value: number; decimals?: number; suffix?: string }[];
+  chip: string;
+};
+
+export type GalleryVisualContent = {
+  chips: { icon: IconName; label: string; detail: string }[];
+};
+
 export type HeroVisualStat = {
   label: string;
   value: string;

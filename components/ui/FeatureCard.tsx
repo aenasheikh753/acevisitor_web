@@ -9,12 +9,13 @@ export default function FeatureCard({
   description,
   tone = "dark",
   className = "",
+  cssReveal = true,
   children,
-}: FeatureContent & { tone?: "dark" | "light"; className?: string; children?: ReactNode }) {
+}: FeatureContent & { tone?: "dark" | "light"; className?: string; cssReveal?: boolean; children?: ReactNode }) {
   return (
-    <Card tone={tone} className={`h-full ${className}`}>
+    <Card tone={tone} cssReveal={cssReveal} className={`h-full ${className}`}>
       <div
-        className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-md ${
+        className={`feature-icon mb-5 inline-flex h-12 w-12 items-center justify-center rounded-md ${
           tone === "dark" ? "bg-cyan/10 text-cyan" : "bg-cyan/10 text-slate-ink"
         }`}
       >

@@ -224,7 +224,7 @@ export default function GalleryViewer({
         </Container>
       </Section>
 
-      <Section tone="light" className="pt-10">
+      <Section tone="light-1" className="pt-10">
         <Container>
           {visibleItems.length === 0 ? (
             <div className="rounded-xl border border-line bg-mist p-8 text-center shadow-card sm:p-12">
@@ -238,7 +238,7 @@ export default function GalleryViewer({
           ) : (
             <>
               <div
-                className="grid gap-6 lg:grid-cols-[minmax(13rem,0.78fr)_minmax(0,2fr)] lg:gap-10"
+                className="split-grid [--split-cols:minmax(13rem,0.78fr)_minmax(0,2fr)] [--split-gap-mobile:1.5rem] [--split-gap:2.5rem]"
                 onKeyDown={handleGalleryKeyDown}
                 tabIndex={0}
               >

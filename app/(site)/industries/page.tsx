@@ -12,7 +12,7 @@ export default async function IndustriesPage() {
   return (
     <>
       <PageHero {...content.hero} />
-      <Section tone="light" className="!pt-0">
+      <Section tone="light-1">
         <Container>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {content.industries.map(({ bullets, ...industry }) => (
