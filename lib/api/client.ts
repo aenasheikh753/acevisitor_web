@@ -1,8 +1,15 @@
 import { apiConfig } from "@/lib/config";
 
+type ApiFetchOptions = RequestInit & {
+  next?: {
+    revalidate?: number | false;
+    tags?: string[];
+  };
+};
+
 export async function apiFetch<T>(
   path: string,
-  options: RequestInit = {},
+  options: ApiFetchOptions = {},
 ): Promise<T> {
   if (!apiConfig.baseUrl) {
     throw new Error("NEXT_PUBLIC_API_URL is not configured.");

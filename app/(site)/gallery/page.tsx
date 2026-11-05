@@ -1,14 +1,9 @@
-import GalleryCarousel from "@/components/sections/GalleryCarousel";
-import PageHero from "@/components/ui/PageHero";
-import { getGalleryContent } from "@/lib/api/content";
+import GalleryViewer from "@/components/sections/GalleryViewer";
+import { getGalleryContent } from "@/lib/api/gallery";
+import { galleryEmptyState } from "@/lib/content/gallery";
 
 export default async function GalleryPage() {
   const content = await getGalleryContent();
 
-  return (
-    <>
-      <PageHero {...content.hero} />
-      <GalleryCarousel content={content} />
-    </>
-  );
+  return <GalleryViewer content={content} emptyState={galleryEmptyState} />;
 }

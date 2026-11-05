@@ -20,7 +20,7 @@ export default async function LoginPage() {
           alt="AceVisitor logo"
           width={36}
           height={36}
-          className="h-9 w-9 shrink-0 rounded-md object-cover"
+          className="h-10 w-10 shrink-0 object-cover"
         />
         <span className="font-heading text-lg font-semibold text-copy">{navContent.brand}</span>
       </Link>

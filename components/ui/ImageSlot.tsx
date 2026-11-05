@@ -6,7 +6,7 @@ import { useState } from "react";
 type ImageSlotProps = {
   src?: string;
   alt: string;
-  aspectRatio?: string;
+  aspectRatio?: string | null;
   className?: string;
 };
 
@@ -22,7 +22,7 @@ export default function ImageSlot({
   return (
     <div
       className={`reveal relative isolate overflow-hidden rounded-xl border border-copy/10 bg-panel ${className}`}
-      style={{ aspectRatio }}
+      style={aspectRatio ? { aspectRatio } : undefined}
     >
       {showImage && src ? (
         <Image

@@ -40,7 +40,7 @@ export default function Navbar({ content }: NavbarProps) {
             alt="AceVisitor logo"
             width={36}
             height={36}
-            className="h-9 w-9 shrink-0 rounded-md object-cover"
+            className="h-10 w-10  shrink-0 object-cover"
           />
           <span className="font-heading text-lg font-semibold tracking-tight text-[var(--color-primary)]">{content.brand}</span>
         </Link>

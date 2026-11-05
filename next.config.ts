@@ -1,7 +1,28 @@
 import type { NextConfig } from "next";
 
+const configuredImageHost = process.env.NEXT_PUBLIC_IMAGE_HOST?.trim();
+const imageHostUrl = configuredImageHost
+  ? new URL(
+      configuredImageHost.includes("://")
+        ? configuredImageHost
+        : `https://${configuredImageHost}`,
+    )
+  : undefined;
+
 const nextConfig: NextConfig = {
   /* config options here */
+  images: {
+    remotePatterns: imageHostUrl
+      ? [
+          {
+            protocol: "https",
+            hostname: imageHostUrl.hostname,
+            port: imageHostUrl.port,
+            pathname: "/**",
+          },
+        ]
+      : [],
+  },
   experimental: {
     agentFeedback: true,
   },

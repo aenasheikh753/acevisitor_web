@@ -4,7 +4,6 @@ import { authContent } from "@/lib/content/auth";
 import { chatContent } from "@/lib/content/chat";
 import { contactContent } from "@/lib/content/contact";
 import { footerContent } from "@/lib/content/footer";
-import { galleryContent } from "@/lib/content/gallery";
 import { homeContent } from "@/lib/content/home";
 import { industriesContent } from "@/lib/content/industries";
 import { navContent } from "@/lib/content/nav";
@@ -13,6 +12,7 @@ import { securityContent } from "@/lib/content/security";
 import { solutionsContent } from "@/lib/content/solutions";
 import { themeContent } from "@/lib/content/theme";
 import { errorContent, loadingContent, notFoundContent } from "@/lib/content/states";
+import { getGalleryContent as loadGalleryContent } from "@/lib/api/gallery";
 
 export async function getHomeContent() {
   return homeContent;
@@ -31,11 +31,12 @@ export async function getTheme() {
 }
 
 export async function getGalleryContent() {
-  return galleryContent;
+  return loadGalleryContent();
 }
 
 export async function getGalleryItems() {
-  return galleryContent.slides;
+  const content = await loadGalleryContent();
+  return content.items;
 }
 
 export async function getFooter() {
