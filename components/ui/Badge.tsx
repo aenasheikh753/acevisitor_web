@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+/** Small status tag with a brass dot. Square-ish, not a pill. */
 export default function Badge({
   children,
   tone = "dark",
@@ -9,13 +10,11 @@ export default function Badge({
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-button border px-3 py-1.5 text-xs font-semibold tracking-wide ${
-        tone === "dark"
-          ? "border-line bg-copy/5 text-copy"
-          : "border-slate-ink/10 bg-mist text-slate-ink"
+      className={`inline-flex items-center gap-2 rounded-[0.3rem] border px-2.5 py-1 text-label font-semibold ${
+        tone === "dark" ? "border-linen/20 text-linen" : "border-spruce/15 bg-paper text-spruce"
       }`}
     >
-      <span className="h-1.5 w-1.5 rounded-button bg-positive" />
+      <span className="h-1.5 w-1.5 rounded-full bg-brass" />
       {children}
     </span>
   );

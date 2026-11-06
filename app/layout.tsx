@@ -1,16 +1,22 @@
 import type { Metadata } from "next";
-import { Inter, Sora } from "next/font/google";
+import { Fraunces, Instrument_Sans } from "next/font/google";
 import { getNavContent } from "@/lib/api/content";
 import "./globals.css";
 
-const sora = Sora({
-  variable: "--font-sora",
+/** Display serif: headlines, numerals, margin notes. Variable optical size + softness. */
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz", "SOFT"],
+  display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+/** Working sans: body, UI, labels, forms. */
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -34,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${sora.variable} ${inter.variable}`}>
+    <html lang="en" className={`${fraunces.variable} ${instrumentSans.variable}`}>
       <body>{children}</body>
     </html>
   );

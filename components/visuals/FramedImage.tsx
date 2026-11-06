@@ -11,18 +11,38 @@ type FramedImageProps = {
   priority?: boolean;
   /** Optional tighter display cap (any CSS length); the natural pixel width always applies too. */
   maxWidth?: string;
+  /** Frame shape: a crisp print ("square"), a soft doorway top ("soft"), or a full arch ("arch"). */
+  shape?: "square" | "soft" | "arch";
+  /** Override the natural aspect ratio (image is cropped with object-cover). */
+  aspect?: string;
+};
+
+const shapeClasses = {
+  square: "rounded-[0.5rem]",
+  soft: "arch-soft",
+  arch: "arch",
 };
 
 /**
- * A raster image shown at its natural aspect ratio inside a framed card
- * (rounded-2xl, token border, soft shadow). It is never stretched or
- * upscaled beyond its natural width.
+ * A raster image shown in a paper frame with the offset shadow.
+ * It is never upscaled beyond its natural width.
  */
-export default function FramedImage({ src, alt, width, height, sizes, className = "", priority = false, maxWidth }: FramedImageProps) {
+export default function FramedImage({
+  src,
+  alt,
+  width,
+  height,
+  sizes,
+  className = "",
+  priority = false,
+  maxWidth,
+  shape = "square",
+  aspect,
+}: FramedImageProps) {
   return (
     <div
-      className={`framed-media relative w-full overflow-hidden rounded-2xl ${className}`}
-      style={{ maxWidth: maxWidth ? `min(${width}px, ${maxWidth})` : `${width}px`, aspectRatio: `${width} / ${height}` }}
+      className={`framed-media relative w-full overflow-hidden ${shapeClasses[shape]} ${className}`}
+      style={{ maxWidth: maxWidth ? `min(${width}px, ${maxWidth})` : `${width}px`, aspectRatio: aspect ?? `${width} / ${height}` }}
     >
       <Image
         src={src}

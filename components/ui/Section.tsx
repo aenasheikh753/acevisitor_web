@@ -1,10 +1,17 @@
 import type { ReactNode } from "react";
 
 /**
- * Section background tones. "dark" (base hero background) and "light"
- * (same as "light-1") are kept as aliases for backwards compatibility.
+ * Section grounds.
+ * Design-system names: "linen" | "paper" | "sage" | "spruce" | "clay".
+ * Legacy names are kept so existing pages keep working: dark/dark-1/2/3/cta → spruce,
+ * light/light-1 → linen, light-2 → soft sage.
  */
 export type SectionTone =
+  | "linen"
+  | "paper"
+  | "sage"
+  | "spruce"
+  | "clay"
   | "dark"
   | "light"
   | "dark-1"
@@ -15,6 +22,11 @@ export type SectionTone =
   | "cta";
 
 const toneClasses: Record<SectionTone, string> = {
+  linen: "ground-linen",
+  paper: "ground-paper",
+  sage: "ground-sage",
+  spruce: "ground-spruce",
+  clay: "ground-clay",
   dark: "section-dark",
   light: "section-tone-light-1",
   "dark-1": "section-tone-dark-1",
@@ -25,15 +37,17 @@ const toneClasses: Record<SectionTone, string> = {
   cta: "section-tone-cta",
 };
 
+const darkTones = new Set<SectionTone>(["spruce", "clay", "dark", "dark-1", "dark-2", "dark-3", "cta"]);
+
 /** Maps a section tone to the dark/light tone that child components expect. */
 export function contentTone(tone: SectionTone): "dark" | "light" {
-  return tone.startsWith("light") ? "light" : "dark";
+  return darkTones.has(tone) ? "dark" : "light";
 }
 
 /**
  * Vertical padding / margin utilities that would override the section rhythm
- * (e.g. pt-0, !pb-16, sm:py-8, -mt-4). Section strips them so every section
- * always keeps padding-block: var(--section-padding-y).
+ * (e.g. pt-0, !pb-16, sm:py-8, -mt-4). Section strips them so rhythm is set
+ * only through the `spacing` prop.
  */
 const verticalSpacingOverride = /^!?(?:[a-z0-9-]+:)*!?-?(?:p[tby]|m[tby])-\S+!?$/;
 
@@ -44,13 +58,22 @@ function withoutVerticalSpacing(className: string) {
     .join(" ");
 }
 
+const spacingClasses = {
+  default: "section-space",
+  tight: "section-space-tight",
+  loose: "section-space-loose",
+  hero: "section-space-hero",
+  none: "",
+} as const;
+
 type SectionProps = {
   children: ReactNode;
   tone?: SectionTone;
-  /** "default" uses the section padding token; "hero" adds room for the fixed navbar at the top. */
-  spacing?: "default" | "hero";
+  /** Rhythm varies on purpose: tight bands, default sections, loose feature moments, or hero. */
+  spacing?: keyof typeof spacingClasses;
   id?: string;
   className?: string;
+  "aria-labelledby"?: string;
 };
 
 export default function Section({
@@ -59,11 +82,14 @@ export default function Section({
   spacing = "default",
   id,
   className = "",
+  ...rest
 }: SectionProps) {
-  const spacingClass = spacing === "hero" ? "section-space-hero" : "section-space";
-
   return (
-    <section id={id} className={`${spacingClass} ${toneClasses[tone]} ${withoutVerticalSpacing(className)}`}>
+    <section
+      id={id}
+      className={`${spacingClasses[spacing]} ${toneClasses[tone]} ${withoutVerticalSpacing(className)}`}
+      {...rest}
+    >
       {children}
     </section>
   );

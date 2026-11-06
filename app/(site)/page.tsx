@@ -6,7 +6,6 @@ import MultiSiteSection from "@/components/sections/MultiSiteSection";
 import PlatformShowcase from "@/components/sections/PlatformShowcase";
 import SecuritySection from "@/components/sections/SecuritySection";
 import VisitorJourney from "@/components/sections/VisitorJourney";
-import Reveal from "@/components/motion/Reveal";
 import CTABanner from "@/components/ui/CTABanner";
 import IconBox from "@/components/ui/IconBox";
 import { getHomeContent } from "@/lib/api/content";
@@ -25,17 +24,13 @@ export default async function HomePage() {
       <MultiSiteSection content={content} />
       <ArrivalPoints content={content} />
       <GalleryPreview content={content} />
-      <Reveal>
-        <div data-reveal="up">
-          <CTABanner
-            title={cta.title}
-            description={cta.description}
-            primary={{ label: cta.primaryLabel, href: cta.primaryHref }}
-            secondary={{ label: cta.secondaryLabel, href: cta.secondaryHref }}
-            icon={<IconBox icon="arrow-up-right" size="sm" />}
-          />
-        </div>
-      </Reveal>
+      <CTABanner
+        title={cta.title}
+        description={cta.description}
+        primary={{ label: cta.primaryLabel, href: cta.primaryHref }}
+        secondary={{ label: cta.secondaryLabel, href: cta.secondaryHref }}
+        icon={<IconBox icon="arrow-up-right" size="sm" />}
+      />
     </>
   );
 }

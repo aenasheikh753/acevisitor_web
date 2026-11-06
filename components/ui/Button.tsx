@@ -4,9 +4,16 @@ import Link from "next/link";
 import type { MouseEventHandler, ReactNode } from "react";
 
 type ButtonProps = {
+  /**
+   * accent  — Brick Clay, the primary call to action.
+   * primary — Spruce Ink (on light grounds) / Linen (on dark grounds).
+   * outline — a drawn outline in the current ground's ink.
+   * ghost   — text only.
+   */
   variant?: "accent" | "primary" | "outline" | "ghost";
   size?: "sm" | "md" | "lg";
   shape?: "rounded" | "circle";
+  /** The ground the button sits on. */
   tone?: "dark" | "light";
   href?: string;
   fullWidth?: boolean;
@@ -25,21 +32,30 @@ type ButtonProps = {
 };
 
 const variantClasses = {
-  accent: "bg-lime text-[var(--color-accent-foreground)] hover:brightness-105 shadow-glow",
-  primary: "bg-cyan text-ink hover:brightness-105",
-  outline: "border border-line bg-copy/5 text-copy hover:border-cyan/50 hover:bg-copy/10",
-  ghost: "bg-transparent text-copy hover:bg-copy/8",
-};
-
-const lightOutlineClasses =
-  "border border-slate-ink/20 bg-slate-ink/5 text-slate-ink hover:border-slate-ink/35 hover:bg-slate-ink/10";
+  light: {
+    accent: "bg-clay text-linen hover:bg-clay-deep hover:shadow-[3px_3px_0_var(--spruce)]",
+    primary: "bg-spruce text-linen hover:bg-spruce-3 hover:shadow-[3px_3px_0_var(--clay)]",
+    outline: "border border-spruce/70 text-spruce hover:border-spruce hover:bg-spruce hover:text-linen",
+    ghost: "text-spruce hover:bg-spruce/8",
+  },
+  dark: {
+    accent: "bg-clay text-linen hover:bg-clay-deep hover:shadow-[3px_3px_0_var(--linen)]",
+    primary: "bg-linen text-spruce hover:bg-paper hover:shadow-[3px_3px_0_var(--clay-light)]",
+    outline: "border border-linen/60 text-linen hover:border-linen hover:bg-linen hover:text-spruce",
+    ghost: "text-linen hover:bg-linen/10",
+  },
+} as const;
 
 const sizeClasses = {
-  sm: "min-h-10 px-4 text-sm",
-  md: "min-h-12 px-5 text-sm",
+  sm: "min-h-10 px-4 text-[0.875rem]",
+  md: "min-h-12 px-5 text-[0.9375rem]",
   lg: "min-h-14 px-7 text-base",
 };
 
+/**
+ * Buttons carry the arch: a soft rounded top over a near-square base.
+ * Hover lifts onto a crisp offset shadow; press settles back down.
+ */
 export default function Button({
   variant = "accent",
   size = "md",
@@ -55,40 +71,27 @@ export default function Button({
   onClick,
   ...ariaProps
 }: ButtonProps) {
-  const selectedVariant =
-    variant === "outline" && tone === "light"
-      ? lightOutlineClasses
-      : variantClasses[variant];
-  const radiusClass =
-    shape === "circle" ? "rounded-full" : "rounded-[10px]";
-  const className = `inline-flex items-center justify-center gap-2 ${radiusClass} font-semibold transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-ink disabled:pointer-events-none disabled:opacity-50 ${selectedVariant} ${sizeClasses[size]} ${fullWidth ? "w-full" : ""} ${additionalClassName}`;
+  const radiusClass = shape === "circle" ? "rounded-full" : "rounded-t-[1.25rem] rounded-b-[0.35rem]";
+  const className = `pressable group/button inline-flex items-center justify-center gap-2.5 ${radiusClass} font-semibold tracking-[-0.005em] hover:-translate-x-px hover:-translate-y-px disabled:pointer-events-none disabled:opacity-50 ${variantClasses[tone][variant]} ${sizeClasses[size]} ${fullWidth ? "w-full" : ""} ${additionalClassName}`;
   const content = (
     <>
       <span>{children}</span>
-      {icon}
+      {icon ? (
+        <span className="inline-flex transition-transform duration-200 group-hover/button:translate-x-0.5">{icon}</span>
+      ) : null}
     </>
   );
 
   if (href) {
     return (
-      <Link
-        href={href}
-        className={className}
-        {...ariaProps}
-      >
+      <Link href={href} className={className} {...ariaProps}>
         {content}
       </Link>
     );
   }
 
   return (
-    <button
-      className={className}
-      type={type}
-      onClick={onClick}
-      disabled={disabled}
-      {...ariaProps}
-    >
+    <button className={className} type={type} onClick={onClick} disabled={disabled} {...ariaProps}>
       {content}
     </button>
   );

@@ -1,60 +1,63 @@
-import Reveal from "@/components/motion/Reveal";
+import JourneyTrail from "@/components/motion/JourneyTrail";
 import Container from "@/components/ui/Container";
 import IconBox from "@/components/ui/IconBox";
 import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
 import type { HomeContent } from "@/lib/types";
 
-/** Staircase offsets per column (lg): each row reads as a rising step. */
-const columnOffset = ["", "lg:mt-8", "lg:mt-16"];
+/** The route meanders: each step steps in and out from the trail's spine (lg and up). */
+const meander = ["lg:ml-0", "lg:ml-[14%]", "lg:ml-[28%]", "lg:ml-[18%]", "lg:ml-[4%]", "lg:ml-[16%]", "lg:ml-[30%]", "lg:ml-[20%]", "lg:ml-[6%]"];
 
+/**
+ * The visit, from invite to audit — a true sequence, so it keeps its numerals.
+ * Steps hang off a single clay path that draws itself as you scroll.
+ */
 export default function VisitorJourney({ content }: { content: HomeContent }) {
   const { journey } = content;
-  const lastIndex = journey.steps.length - 1;
 
   return (
-    <Section tone="dark-1" id="journey">
+    <Section tone="dark-1" spacing="loose" id="journey" aria-labelledby="journey-title">
       <Container>
-        <Reveal>
-          <div data-reveal="up">
-            <SectionHeading
-              eyebrow={journey.eyebrow}
-              title={journey.title}
-              description={journey.description}
-            />
+        <div className="grid gap-16 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-5">
+            <div className="lg:sticky lg:top-[calc(var(--nav-h)+3rem)]">
+              <SectionHeading
+                id="journey-title"
+                eyebrow={journey.eyebrow}
+                title={journey.title}
+                description={journey.description}
+              />
+            </div>
           </div>
-          <ol data-reveal-stagger className="mt-12 grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-4">
-            {journey.steps.map((step, index) => (
-              <li key={step.number} className={`relative h-fit ${columnOffset[index % 3]}`}>
-                <div className="glass-card gradient-border rounded-2xl p-5 transition-[translate,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-glow">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="rounded-full border border-cyan/25 bg-cyan/10 px-2.5 py-1 text-[11px] font-bold tracking-[0.14em] text-cyan">
+
+          <JourneyTrail className="lg:col-span-7">
+            <ol className="relative space-y-10 sm:space-y-12">
+              {journey.steps.map((step, index) => (
+                <li key={step.number} className={`relative pl-12 sm:pl-14 ${meander[index % meander.length]}`}>
+                  <span
+                    data-trail-dot
+                    aria-hidden="true"
+                    className="absolute left-0 top-4 grid h-7 w-7 place-items-center rounded-full border border-clay-light/60 bg-[#072b36]"
+                  >
+                    <span className="h-2 w-2 rounded-full bg-clay-light" />
+                  </span>
+                  <div className="flex max-w-[26rem] items-start gap-5">
+                    <span className="w-14 shrink-0 font-display text-[2.75rem] italic leading-none text-clay-light [font-variation-settings:'SOFT'_100]">
                       {step.number}
                     </span>
-                    <span className="grid h-9 w-9 place-items-center rounded-xl bg-cyan/10 text-cyan ring-1 ring-cyan/15">
-                      <IconBox icon={step.icon} size="sm" />
-                    </span>
+                    <div className="min-w-0 pt-1">
+                      <h3 className="flex items-center gap-2.5 text-h3 text-linen">
+                        {step.title}
+                        <IconBox icon={step.icon} size="md" className="text-linen/45" />
+                      </h3>
+                      <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-linen/70">{step.description}</p>
+                    </div>
                   </div>
-                  <h3 className="mt-4 font-heading text-lg font-semibold text-copy">{step.title}</h3>
-                  <p className="mt-1.5 text-sm leading-6 text-muted">{step.description}</p>
-                </div>
-
-                {/* Connector to the next step: horizontal on desktop rows, vertical when stacked. */}
-                {index % 3 !== 2 && index !== lastIndex ? (
-                  <span aria-hidden="true" className="absolute -right-6 top-9 hidden w-6 items-center lg:flex">
-                    <i className="h-px flex-1 border-t border-dashed border-cyan/35" />
-                    <i className="h-1.5 w-1.5 rounded-full bg-cyan/70" />
-                  </span>
-                ) : null}
-                {index !== lastIndex ? (
-                  <span aria-hidden="true" className="absolute -bottom-4 left-9 flex h-4 flex-col items-center sm:hidden">
-                    <i className="w-px flex-1 border-l border-dashed border-cyan/35" />
-                  </span>
-                ) : null}
-              </li>
-            ))}
-          </ol>
-        </Reveal>
+                </li>
+              ))}
+            </ol>
+          </JourneyTrail>
+        </div>
       </Container>
     </Section>
   );

@@ -1,38 +1,43 @@
 import type { ReactNode } from "react";
 import type { FeatureContent } from "@/lib/types";
-import Card from "@/components/ui/Card";
+import Card, { type CardShape, type CardSurface } from "@/components/ui/Card";
 import IconBox from "@/components/ui/IconBox";
+
+const darkSurfaces = new Set<CardSurface>(["spruce", "clay"]);
 
 export default function FeatureCard({
   icon,
   title,
   description,
   tone = "dark",
+  surface,
+  shape,
+  size = "md",
   className = "",
-  cssReveal = true,
   children,
-}: FeatureContent & { tone?: "dark" | "light"; className?: string; cssReveal?: boolean; children?: ReactNode }) {
+}: FeatureContent & {
+  tone?: "dark" | "light";
+  surface?: CardSurface;
+  shape?: CardShape;
+  /** "lg" sets a display-size title for feature tiles in a bento grid. */
+  size?: "md" | "lg";
+  className?: string;
+  cssReveal?: boolean;
+  children?: ReactNode;
+}) {
+  // Outline cards are transparent, so they take the ground's tone.
+  const onDark = surface && surface !== "outline" ? darkSurfaces.has(surface) : tone === "dark";
+  const iconColour = surface === "clay" ? "text-linen" : onDark ? "text-clay-light" : "text-clay";
+
   return (
-    <Card tone={tone} cssReveal={cssReveal} className={`h-full ${className}`}>
-      <div
-        className={`feature-icon mb-5 inline-flex h-12 w-12 items-center justify-center rounded-md ${
-          tone === "dark" ? "bg-cyan/10 text-cyan" : "bg-cyan/10 text-slate-ink"
-        }`}
-      >
-        <IconBox icon={icon} />
-      </div>
+    <Card tone={tone} surface={surface} shape={shape} className={`h-full ${className}`}>
+      <IconBox icon={icon} size={size === "lg" ? "xl" : "lg"} className={`${iconColour} ${size === "lg" ? "mb-10" : "mb-6"}`} />
       <h3
-        className={`font-heading text-lg font-semibold tracking-tight ${
-          tone === "dark" ? "text-copy" : "text-slate-ink"
-        }`}
+        className={`${size === "lg" ? "text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.05] tracking-[-0.02em]" : "text-h3"} ${onDark ? "text-linen" : "text-spruce"}`}
       >
         {title}
       </h3>
-      <p
-        className={`mt-3 text-sm leading-6 ${
-          tone === "dark" ? "text-muted" : "text-slate-ink/70"
-        }`}
-      >
+      <p className={`mt-3 ${size === "lg" ? "max-w-md text-body" : "text-[0.9375rem] leading-relaxed"} ${onDark ? "text-linen/75" : "text-spruce/75"}`}>
         {description}
       </p>
       {children}

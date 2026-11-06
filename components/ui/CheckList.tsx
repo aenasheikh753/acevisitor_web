@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Icon } from "@/components/ui/IconBox";
 
 export default function CheckList({
   items,
@@ -7,18 +7,16 @@ export default function CheckList({
   items: string[];
   tone?: "dark" | "light";
 }) {
+  const isDark = tone === "dark";
+
   return (
     <ul className="space-y-3">
       {items.map((item) => (
         <li
           key={item}
-          className={`flex items-start gap-3 text-sm leading-6 ${
-            tone === "dark" ? "text-muted" : "text-slate-ink/75"
-          }`}
+          className={`flex items-start gap-3 text-[0.9375rem] leading-relaxed ${isDark ? "text-linen/80" : "text-spruce/80"}`}
         >
-          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-button bg-positive/15 text-positive">
-            <Check className="h-3 w-3" aria-hidden="true" />
-          </span>
+          <Icon icon="check" className={`mt-1 h-4 w-4 shrink-0 ${isDark ? "text-clay-light" : "text-clay"}`} strokeWidth={2} />
           {item}
         </li>
       ))}
