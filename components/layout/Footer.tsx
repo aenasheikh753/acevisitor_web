@@ -29,8 +29,15 @@ function LinkColumn({ label, links }: { label: string; links: FooterContent["pro
 
 export default function Footer({ content, brand }: FooterProps) {
   return (
-    <footer className="footer-surface relative overflow-hidden pt-[clamp(4rem,8vw,7rem)]">
-      <Container>
+    <footer className="footer-surface relative isolate overflow-hidden pt-[clamp(4rem,8vw,7rem)]">
+      {/* The visitor path runs faintly through the footer background, behind the content */}
+      <VisitorPath
+        variant="footer"
+        strokeClassName="stroke-clay-light"
+        className="pointer-events-none absolute inset-x-0 bottom-16 -z-10 h-28 w-full opacity-30 sm:bottom-14 sm:h-36 lg:bottom-10 lg:h-44"
+      />
+
+      <Container className="pb-16 sm:pb-20 lg:pb-24">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-6">
             <Link href="/" className="inline-flex items-center gap-2.5">
@@ -68,15 +75,6 @@ export default function Footer({ content, brand }: FooterProps) {
           </div>
         </div>
       </Container>
-
-      <VisitorPath variant="footer" strokeClassName="stroke-clay-light" className="mt-16 h-16 w-full opacity-70 sm:h-24" />
-
-      {/* Oversized wordmark, shown in full */}
-      <div aria-hidden="true" className="pointer-events-none select-none overflow-hidden">
-        <p className="mt-2 whitespace-nowrap pb-[0.12em] pr-[0.08em] text-center font-display text-[clamp(3rem,18vw,17rem)] italic leading-[1.05] tracking-[-0.04em] text-spruce-3 [font-variation-settings:'SOFT'_100]">
-          {brand}
-        </p>
-      </div>
 
       <div className="relative border-t border-linen/10">
         <Container className="flex flex-col gap-3 py-6 text-[0.875rem] text-linen/65 sm:flex-row sm:items-center sm:justify-between">
