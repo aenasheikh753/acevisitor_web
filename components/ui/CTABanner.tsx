@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
+import Section from "@/components/ui/Section";
 import type { LinkContent } from "@/lib/types";
 
 export default function CTABanner({
@@ -17,7 +18,7 @@ export default function CTABanner({
   icon?: ReactNode;
 }) {
   return (
-    <section className="section-tone-cta py-12 sm:py-16">
+    <Section tone="cta">
       <Container>
         <div className="cta-banner-surface relative overflow-hidden rounded-xl border border-cyan/20 px-6 py-10 sm:px-10 sm:py-14 lg:flex lg:items-center lg:justify-between lg:gap-10">
           <div className="relative max-w-2xl">
@@ -34,6 +35,6 @@ export default function CTABanner({
           </div>
         </div>
       </Container>
-    </section>
+    </Section>
   );
 }

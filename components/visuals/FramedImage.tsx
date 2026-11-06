@@ -9,6 +9,8 @@ type FramedImageProps = {
   sizes: string;
   className?: string;
   priority?: boolean;
+  /** Optional tighter display cap (any CSS length); the natural pixel width always applies too. */
+  maxWidth?: string;
 };
 
 /**
@@ -16,11 +18,11 @@ type FramedImageProps = {
  * (rounded-2xl, token border, soft shadow). It is never stretched or
  * upscaled beyond its natural width.
  */
-export default function FramedImage({ src, alt, width, height, sizes, className = "", priority = false }: FramedImageProps) {
+export default function FramedImage({ src, alt, width, height, sizes, className = "", priority = false, maxWidth }: FramedImageProps) {
   return (
     <div
       className={`framed-media relative w-full overflow-hidden rounded-2xl ${className}`}
-      style={{ maxWidth: `${width}px`, aspectRatio: `${width} / ${height}` }}
+      style={{ maxWidth: maxWidth ? `min(${width}px, ${maxWidth})` : `${width}px`, aspectRatio: `${width} / ${height}` }}
     >
       <Image
         src={src}

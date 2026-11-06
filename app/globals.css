@@ -279,6 +279,12 @@ textarea {
   padding-block: var(--section-padding-y);
 }
 
+/* Page heroes: extra top room for the fixed navbar, standard rhythm below. */
+.section-space-hero {
+  padding-top: calc(var(--section-padding-y) + 2rem);
+  padding-bottom: calc(var(--section-padding-y) * 0.7);
+}
+
 .hero-grid {
   background-image:
     linear-gradient(color-mix(in srgb, var(--color-text) 4.5%, transparent) 1px, transparent 1px),

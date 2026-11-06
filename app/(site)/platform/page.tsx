@@ -2,12 +2,12 @@ import Button from "@/components/ui/Button";
 import CTABanner from "@/components/ui/CTABanner";
 import Container from "@/components/ui/Container";
 import FeatureCard from "@/components/ui/FeatureCard";
-import ImageSlot from "@/components/ui/ImageSlot";
 import PageHero from "@/components/ui/PageHero";
 import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
 import SplitLayout from "@/components/ui/SplitLayout";
 import IconBox from "@/components/ui/IconBox";
+import FramedImage from "@/components/visuals/FramedImage";
 import { getPlatformContent } from "@/lib/api/content";
 
 export default async function PlatformPage() {
@@ -18,7 +18,15 @@ export default async function PlatformPage() {
       <PageHero {...content.hero} />
       <Section tone="dark-1">
         <Container>
-          <ImageSlot src="/images/platform/platform-overview.png" alt={content.heroImageAlt} aspectRatio="2 / 1" />
+          <FramedImage
+            src="/images/platform/platform-overview.png"
+            alt={content.heroImageAlt}
+            width={1536}
+            height={1024}
+            maxWidth="64rem"
+            sizes="(min-width: 1088px) 1024px, 94vw"
+            className="mx-auto"
+          />
         </Container>
       </Section>
       <Section tone="light-1">
@@ -53,7 +61,16 @@ export default async function PlatformPage() {
                 </div>
               </>
             }
-            end={<ImageSlot src="/images/platform/front-desk-live-view.webp" alt={content.liveView.imageAlt} aspectRatio="1.12 / 1" />}
+            end={
+              <FramedImage
+                src="/images/platform/front-desk-live-view.webp"
+                alt={content.liveView.imageAlt}
+                width={1400}
+                height={1250}
+                sizes="(min-width: 1280px) 600px, (min-width: 1024px) 48vw, 92vw"
+                className="mx-auto"
+              />
+            }
           />
         </Container>
       </Section>
@@ -61,11 +78,13 @@ export default async function PlatformPage() {
         <Container>
           <SplitLayout
             start={
-              <ImageSlot
+              <FramedImage
                 src="/images/platform/kiosk-and-badge.webp"
                 alt={content.kiosk.imageAlt}
-                aspectRatio="1.12 / 1"
-                className="border-slate-ink/10"
+                width={1400}
+                height={1250}
+                sizes="(min-width: 1280px) 600px, (min-width: 1024px) 48vw, 92vw"
+                className="mx-auto"
               />
             }
             end={

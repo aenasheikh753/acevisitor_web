@@ -2,11 +2,11 @@ import CTABanner from "@/components/ui/CTABanner";
 import CheckList from "@/components/ui/CheckList";
 import Container from "@/components/ui/Container";
 import FeatureCard from "@/components/ui/FeatureCard";
-import ImageSlot from "@/components/ui/ImageSlot";
 import PageHero from "@/components/ui/PageHero";
 import Section, { contentTone, type SectionTone } from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
 import SplitLayout from "@/components/ui/SplitLayout";
+import FramedImage from "@/components/visuals/FramedImage";
 import { getSolutionsContent } from "@/lib/api/content";
 
 /** Alternating backgrounds for the solution rows: light / dark, cycling tints. */
@@ -44,11 +44,13 @@ export default async function SolutionsPage() {
                   </>
                 }
                 end={
-                  <ImageSlot
+                  <FramedImage
                     src={`/images/solutions/${row.imageSlug}.webp`}
                     alt={row.imageAlt}
-                    aspectRatio="1.18 / 1"
-                    className={childTone === "light" ? "border-slate-ink/10" : ""}
+                    width={1416}
+                    height={1200}
+                    sizes="(min-width: 1280px) 600px, (min-width: 1024px) 48vw, 92vw"
+                    className="mx-auto"
                   />
                 }
               />

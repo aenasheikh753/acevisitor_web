@@ -1,11 +1,11 @@
 import CTABanner from "@/components/ui/CTABanner";
 import Container from "@/components/ui/Container";
 import FeatureCard from "@/components/ui/FeatureCard";
-import ImageSlot from "@/components/ui/ImageSlot";
 import PageHero from "@/components/ui/PageHero";
 import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
 import SplitLayout from "@/components/ui/SplitLayout";
+import FramedImage from "@/components/visuals/FramedImage";
 import { getAboutContent } from "@/lib/api/content";
 
 export default async function AboutPage() {
@@ -16,7 +16,15 @@ export default async function AboutPage() {
       <PageHero {...content.hero} />
       <Section tone="dark-1">
         <Container>
-          <ImageSlot src="/images/about/acevisitor-team.webp" alt={content.heroImageAlt} aspectRatio="2.1 / 1" />
+          <FramedImage
+            src="/images/about/acevisitor-team.webp"
+            alt={content.heroImageAlt}
+            width={1086}
+            height={1448}
+            maxWidth="30rem"
+            sizes="(min-width: 560px) 480px, 92vw"
+            className="mx-auto"
+          />
         </Container>
       </Section>
       <Section tone="light-1">

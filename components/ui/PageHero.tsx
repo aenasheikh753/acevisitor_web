@@ -12,7 +12,7 @@ export default function PageHero({
   actionHref,
 }: PageHeroContent) {
   return (
-    <Section className="relative overflow-hidden !pb-16 !pt-28 sm:!pb-20 sm:!pt-36">
+    <Section spacing="hero" className="relative overflow-hidden">
       <div aria-hidden="true" className="hero-grid absolute inset-0" />
       <div aria-hidden="true" className="absolute -right-36 -top-32 h-96 w-96 rounded-button bg-cyan/10 blur-3xl" />
       <Container className="relative">

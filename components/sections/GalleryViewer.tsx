@@ -31,11 +31,16 @@ function GalleryImage({
   alt,
   sizes,
   className = "",
+  fit = "cover",
+  quality,
 }: {
   src: string;
   alt: string;
   sizes: string;
   className?: string;
+  /** "contain" shows the whole image without cropping (letterboxed inside the 16:10 frame). */
+  fit?: "cover" | "contain";
+  quality?: number;
 }) {
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
@@ -57,7 +62,8 @@ function GalleryImage({
           alt={alt}
           fill
           sizes={sizes}
-          className={`object-cover transition-opacity duration-300 ${
+          quality={quality}
+          className={`${fit === "contain" ? "object-contain" : "object-cover"} transition-opacity duration-300 ${
             loaded ? "opacity-100" : "opacity-0"
           }`}
           onLoad={() => setLoaded(true)}
@@ -224,7 +230,7 @@ export default function GalleryViewer({
         </Container>
       </Section>
 
-      <Section tone="light-1" className="pt-10">
+      <Section tone="light-1">
         <Container>
           {visibleItems.length === 0 ? (
             <div className="rounded-xl border border-line bg-mist p-8 text-center shadow-card sm:p-12">
@@ -282,12 +288,15 @@ export default function GalleryViewer({
                     tabIndex={0}
                     className="min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan"
                   >
-                    <div className="relative">
+                    {/* Capped at 52rem (832px): below every gallery file's natural width (≥ 1448px), so it is never upscaled. */}
+                    <div className="relative mx-auto w-full max-w-[52rem]">
                       <GalleryImage
                         key={activeItem.id}
                         src={activeItem.image.src}
                         alt={activeItem.image.alt}
-                        sizes="(max-width: 1024px) 100vw, 75vw"
+                        sizes="(min-width: 1280px) 832px, (min-width: 1024px) 62vw, 100vw"
+                        quality={90}
+                        fit="contain"
                         className="shadow-card"
                       />
                       <button
@@ -303,7 +312,7 @@ export default function GalleryViewer({
 
                     <div
                       aria-live="polite"
-                      className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"
+                      className="mx-auto mt-5 flex w-full max-w-[52rem] flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"
                     >
                       <div className="min-w-0">
                         <h2 className="font-heading text-2xl font-semibold text-slate-ink sm:text-3xl">
