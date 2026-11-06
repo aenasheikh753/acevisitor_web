@@ -21,11 +21,11 @@ export const galleryContent: GalleryContent = {
       description:
         "A live, practical view for welcoming and managing expected guests.",
       image: {
-        src: "/images/gallery/front-desk-check-in.webp",
+        src: "/images/gallery/front-desk-check-in.png",
         alt: "Visitor check-in and front desk operations dashboard",
       },
       thumbnail: {
-        src: "/images/gallery/front-desk-check-in.webp",
+        src: "/images/gallery/front-desk-check-in.png",
         alt: "Preview of the front desk and check-in experience",
       },
       isVisible: true,
@@ -37,11 +37,11 @@ export const galleryContent: GalleryContent = {
       description:
         "Clear, professional identification that supports your arrival workflow.",
       image: {
-        src: "/images/gallery/visitor-badges.webp",
+        src: "/images/gallery/Access-Badge.png",
         alt: "Branded visitor badge layout with visitor and host details",
       },
       thumbnail: {
-        src: "/images/gallery/visitor-badges.webp",
+        src: "/images/gallery/Access-Badge.png",
         alt: "Preview of visitor badges",
       },
       isVisible: true,
@@ -53,11 +53,11 @@ export const galleryContent: GalleryContent = {
       description:
         "Keep hosts informed and make pending decisions easier to see.",
       image: {
-        src: "/images/gallery/host-approvals.webp",
+        src: "/images/gallery/host-approvals.png",
         alt: "Host approval notification and visit details interface",
       },
       thumbnail: {
-        src: "/images/gallery/host-approvals.webp",
+        src: "/images/gallery/host-approvals.png",
         alt: "Preview of host approvals",
       },
       isVisible: true,
@@ -69,11 +69,11 @@ export const galleryContent: GalleryContent = {
       description:
         "See activity across locations while preserving local context.",
       image: {
-        src: "/images/gallery/multi-site-operations.webp",
+        src: "/images/gallery/Industries.png",
         alt: "Multi-site visitor operations overview with locations and activity",
       },
       thumbnail: {
-        src: "/images/gallery/multi-site-operations.webp",
+        src: "/images/gallery/Industries.png",
         alt: "Preview of multi-site operations",
       },
       isVisible: true,

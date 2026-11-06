@@ -1,12 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Maximize2,
-  X,
-} from "lucide-react";
+import { Maximize2 } from "lucide-react";
 import {
   useEffect,
   useRef,
@@ -14,6 +9,8 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
 import Container from "@/components/ui/Container";
+import Headline from "@/components/ui/Headline";
+import { Icon } from "@/components/ui/IconBox";
 import ImageSlot from "@/components/ui/ImageSlot";
 import Section from "@/components/ui/Section";
 import type { GalleryContent } from "@/lib/types";
@@ -25,6 +22,11 @@ const controlLabels = {
   next: "Next gallery image",
 };
 
+/**
+ * Every gallery image sits in the same 3:2 frame, so the stage and the rail never
+ * change size between items. "cover" fills the frame (trimming a little from the
+ * wider or taller files); "contain" shows the whole file (used full-screen).
+ */
 function GalleryImage({
   src,
   alt,
@@ -37,24 +39,16 @@ function GalleryImage({
   alt: string;
   sizes: string;
   className?: string;
-  /** "contain" shows the whole image without cropping (letterboxed inside the 16:10 frame). */
   fit?: "cover" | "contain";
   quality?: number;
 }) {
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
-  const [loaded, setLoaded] = useState(false);
   const hasFailed = failedSrc === src;
 
   return (
-    <div
-      className={`relative aspect-[16/10] overflow-hidden rounded-xl border border-line bg-mist ${className}`}
-    >
+    <div className={`relative aspect-[3/2] w-full overflow-hidden ${className}`}>
       {hasFailed ? (
-        <ImageSlot
-          alt={alt}
-          aspectRatio="16 / 10"
-          className="absolute inset-0 h-full w-full rounded-none border-0 shadow-none"
-        />
+        <ImageSlot alt={alt} aspectRatio="3 / 2" className="absolute inset-0 h-full w-full rounded-none border-0 shadow-none" />
       ) : (
         <Image
           src={src}
@@ -62,10 +56,7 @@ function GalleryImage({
           fill
           sizes={sizes}
           quality={quality}
-          className={`${fit === "contain" ? "object-contain" : "object-cover"} transition-opacity duration-300 ${
-            loaded ? "opacity-100" : "opacity-0"
-          }`}
-          onLoad={() => setLoaded(true)}
+          className={fit === "contain" ? "object-contain" : "object-cover"}
           onError={() => setFailedSrc(src)}
         />
       )}
@@ -73,28 +64,47 @@ function GalleryImage({
   );
 }
 
+/** Arch-topped arrow button, in the site's button shape. */
 function GalleryArrow({
   direction,
   label,
   onClick,
+  tone = "light",
   className = "",
 }: {
   direction: "previous" | "next";
   label: string;
   onClick: () => void;
+  tone?: "light" | "dark";
   className?: string;
 }) {
-  const Icon = direction === "previous" ? ChevronLeft : ChevronRight;
-
   return (
     <button
       type="button"
       aria-label={label}
       onClick={onClick}
-      className={`grid h-10 w-10 place-items-center rounded-full border border-line bg-mist text-slate-ink transition-colors hover:bg-cyan/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan ${className}`}
+      className={`pressable group grid h-11 w-11 place-items-center rounded-t-3xl rounded-b-md border ${
+        tone === "light"
+          ? "border-spruce/25 bg-paper text-spruce hover:border-spruce hover:bg-spruce hover:text-linen"
+          : "border-linen/25 bg-spruce-2 text-linen hover:border-linen hover:bg-linen hover:text-spruce"
+      } ${className}`}
     >
-      <Icon className="h-5 w-5" aria-hidden="true" />
+      <Icon
+        icon={direction === "previous" ? "arrow-left" : "arrow-right"}
+        className={`h-5 w-5 transition-transform duration-200 ${
+          direction === "previous" ? "group-hover:-translate-x-0.5" : "group-hover:translate-x-0.5"
+        }`}
+      />
     </button>
+  );
+}
+
+/** The small doorway that marks the current exhibit. */
+function ArchMarker({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 20" aria-hidden="true" className={className} fill="currentColor">
+      <path d="M0 20V8a8 8 0 0 1 16 0v12H0Z" />
+    </svg>
   );
 }
 
@@ -206,120 +216,156 @@ export default function GalleryViewer({
     };
   }, [lightboxOpen, visibleItems.length]);
 
+  /** Three prints fanned like a stack on a table (hero decoration). */
+  const fan = visibleItems.slice(0, 3);
+  const fanPlacement = [
+    "left-0 top-10 -rotate-6",
+    "left-1/2 top-0 -translate-x-1/2 rotate-2 z-10",
+    "right-0 top-14 rotate-6",
+  ];
+
   return (
     <>
-      <Section className="relative overflow-hidden">
+      {/* ---------- Hero ---------- */}
+      <Section tone="dark" spacing="hero" className="relative overflow-hidden">
         <Container>
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-            <div className="max-w-3xl">
-              <p className="mb-4 text-xs font-semibold tracking-[0.2em] text-cyan">
-                {content.eyebrow}
-              </p>
-              <h1 className="font-heading text-4xl font-semibold tracking-tight text-copy sm:text-5xl lg:text-6xl">
-                {content.title}
+          <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-6">
+              <p className="margin-note text-clay-light">{content.eyebrow}</p>
+              <h1 className="mt-7 text-h1 text-linen">
+                <Headline text={content.title} animated emphasisClassName="text-clay-light" />
               </h1>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-muted sm:text-lg sm:leading-8">
-                {content.description}
-              </p>
+              <p className="mt-7 max-w-xl text-body text-linen/75 sm:text-lead">{content.description}</p>
             </div>
+
+            {fan.length > 0 ? (
+              <div aria-hidden="true" className="relative mx-auto h-56 w-full max-w-lg sm:h-64 lg:col-span-6">
+                <div className="arch absolute inset-x-16 bottom-0 top-4 border border-clay-light/25 sm:inset-x-24" />
+                {fan.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className={`absolute w-44 rounded-md bg-paper p-1.5 shadow-[var(--shadow-offset-dark)] sm:w-56 ${fanPlacement[index]}`}
+                  >
+                    <GalleryImage
+                      src={(item.thumbnail ?? item.image).src}
+                      alt=""
+                      sizes="224px"
+                      className="rounded-sm"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         </Container>
       </Section>
 
-      <Section tone="light-1">
+      {/* ---------- Exhibition ---------- */}
+      <Section tone="linen" className="overflow-hidden">
         <Container>
           {visibleItems.length === 0 ? (
-            <div className="rounded-xl border border-line bg-mist p-8 text-center shadow-card sm:p-12">
-              <h2 className="font-heading text-2xl font-semibold text-slate-ink">
-                {emptyState.title}
-              </h2>
-              <p className="mx-auto mt-3 max-w-2xl leading-7 text-slate-ink/70">
-                {emptyState.description}
-              </p>
+            <div className="arch-soft mx-auto max-w-2xl border border-spruce/15 bg-paper p-8 pt-14 text-center sm:p-12 sm:pt-16">
+              <h2 className="text-h3 text-spruce">{emptyState.title}</h2>
+              <p className="mx-auto mt-3 max-w-xl text-body text-spruce/75">{emptyState.description}</p>
             </div>
           ) : (
             <>
               <div
-                className="split-grid [--split-cols:minmax(13rem,0.78fr)_minmax(0,2fr)] [--split-gap-mobile:1.5rem] [--split-gap:2.5rem]"
+                className="grid gap-12 lg:grid-cols-12 lg:gap-10"
                 onKeyDown={handleGalleryKeyDown}
                 tabIndex={0}
               >
-                <div
-                  role="tablist"
-                  aria-label={content.title}
-                  className="flex min-w-0 gap-2 overflow-x-auto pb-2 lg:flex-col lg:gap-2 lg:overflow-visible lg:pb-0"
-                >
-                  {visibleItems.map((item, index) => {
-                    const selected = index === activeIndex;
+                {/* Exhibit index */}
+                <div className="lg:col-span-4 lg:pt-10">
+                  <div
+                    role="tablist"
+                    aria-label={content.title}
+                    className="-mx-4 flex gap-1 overflow-x-auto px-4 pb-2 lg:mx-0 lg:flex-col lg:gap-0 lg:overflow-visible lg:border-t lg:border-spruce/15 lg:px-0 lg:pb-0"
+                  >
+                    {visibleItems.map((item, index) => {
+                      const selected = index === activeIndex;
 
-                    return (
-                      <button
-                        key={item.id}
-                        id={`gallery-tab-${index}`}
-                        type="button"
-                        role="tab"
-                        aria-selected={selected}
-                        aria-controls="gallery-item-panel"
-                        onClick={() => showItem(index)}
-                        className={`flex shrink-0 items-center gap-3 rounded-[10px] border-l-2 px-4 py-3 text-left text-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan lg:w-full ${
-                          selected
-                            ? "border-l-cyan bg-cyan/10 font-medium text-slate-ink"
-                            : "border-l-transparent text-slate-ink/70 hover:bg-slate-ink/5"
-                        }`}
-                      >
-                        <span className="text-xs font-semibold tracking-wide text-cyan">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                        <span className="whitespace-nowrap">{item.title}</span>
-                      </button>
-                    );
-                  })}
+                      return (
+                        <button
+                          key={item.id}
+                          id={`gallery-tab-${index}`}
+                          type="button"
+                          role="tab"
+                          aria-selected={selected}
+                          aria-controls="gallery-item-panel"
+                          onClick={() => showItem(index)}
+                          className={`group flex shrink-0 items-center gap-3 rounded-t-2xl rounded-b-sm px-4 py-2.5 text-left transition-colors duration-200 lg:w-full lg:rounded-none lg:border-b lg:border-spruce/15 lg:px-1 lg:py-4 ${
+                            selected
+                              ? "bg-spruce text-linen lg:bg-transparent lg:text-spruce"
+                              : "text-spruce/65 hover:text-spruce"
+                          }`}
+                        >
+                          <ArchMarker
+                            className={`hidden h-5 w-4 shrink-0 transition-colors duration-200 lg:block ${
+                              selected ? "text-clay" : "text-spruce/15 group-hover:text-spruce/35"
+                            }`}
+                          />
+                          <span
+                            className={`whitespace-nowrap font-display text-lg leading-tight lg:text-2xl ${
+                              selected ? "lg:italic" : ""
+                            }`}
+                          >
+                            {item.title}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <p className="mt-6 hidden max-w-xs text-sm leading-relaxed text-stone lg:block">{content.note}</p>
                 </div>
 
+                {/* Stage */}
                 {activeItem && (
                   <div
                     id="gallery-item-panel"
                     role="tabpanel"
                     aria-labelledby={`gallery-tab-${activeIndex}`}
                     tabIndex={0}
-                    className="min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan"
+                    className="min-w-0 lg:col-span-8"
                   >
-                    {/* Capped at 52rem (832px): below every gallery file's natural width (≥ 1448px), so it is never upscaled. */}
-                    <div className="relative mx-auto w-full max-w-[52rem]">
-                      <GalleryImage
-                        key={activeItem.id}
-                        src={activeItem.image.src}
-                        alt={activeItem.image.alt}
-                        sizes="(min-width: 1280px) 832px, (min-width: 1024px) 62vw, 100vw"
-                        quality={90}
-                        fit="contain"
-                        className="shadow-card"
-                      />
-                      <button
-                        ref={expandButtonRef}
-                        type="button"
-                        aria-label={`${controlLabels.expand}: ${activeItem.title}`}
-                        onClick={() => setLightboxOpen(true)}
-                        className="absolute bottom-4 right-4 grid h-10 w-10 place-items-center rounded-full border border-line bg-mist text-slate-ink shadow-card transition-colors hover:bg-cyan/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan"
-                      >
-                        <Maximize2 className="h-5 w-5" aria-hidden="true" />
-                      </button>
+                    <div className="relative mx-auto max-w-2xl pt-10 sm:pt-14">
+                      {/* The doorway the print hangs in front of */}
+                      <div aria-hidden="true" className="arch absolute inset-x-8 bottom-16 top-0 bg-spruce sm:inset-x-16" />
+                      <div aria-hidden="true" className="arch absolute inset-x-14 bottom-16 top-6 border border-clay-light/25 sm:inset-x-24 sm:top-8" />
+
+                      {/* The matted print — always the same 3:2 size */}
+                      <div className="relative rounded-lg bg-paper p-2 shadow-[var(--shadow-offset)] sm:p-3">
+                        <GalleryImage
+                          key={activeItem.id}
+                          src={activeItem.image.src}
+                          alt={activeItem.image.alt}
+                          sizes="(min-width: 768px) 648px, 92vw"
+                          quality={90}
+                          className="rounded-md bg-sage-soft"
+                        />
+                        <button
+                          ref={expandButtonRef}
+                          type="button"
+                          aria-label={`${controlLabels.expand}: ${activeItem.title}`}
+                          onClick={() => setLightboxOpen(true)}
+                          className="pressable absolute bottom-5 right-5 grid h-11 w-11 place-items-center rounded-t-3xl rounded-b-md bg-spruce text-linen shadow-[var(--shadow-offset-sm)] hover:bg-clay sm:bottom-6 sm:right-6 [--focus:var(--clay)]"
+                        >
+                          <Maximize2 className="h-5 w-5" aria-hidden="true" />
+                        </button>
+                      </div>
                     </div>
 
+                    {/* Caption card */}
                     <div
                       aria-live="polite"
-                      className="mx-auto mt-5 flex w-full max-w-[52rem] flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"
+                      className="mx-auto mt-6 flex max-w-2xl flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
                     >
-                      <div className="min-w-0">
-                        <h2 className="font-heading text-2xl font-semibold text-slate-ink sm:text-3xl">
-                          {activeItem.title}
-                        </h2>
-                        <p className="mt-2 max-w-2xl leading-7 text-slate-ink/70">
-                          {activeItem.description}
-                        </p>
+                      <div className="min-w-0 border-l-2 border-brass pl-5">
+                        <h2 className="text-h3 text-spruce sm:text-3xl">{activeItem.title}</h2>
+                        <p className="mt-2 max-w-md text-body text-spruce/75">{activeItem.description}</p>
                       </div>
-                      <div className="flex shrink-0 items-center gap-3 sm:justify-end">
-                        <span className="min-w-12 text-center text-sm font-medium tabular-nums text-slate-ink">
+                      <div className="flex shrink-0 items-center gap-3">
+                        <span className="min-w-14 text-center font-display text-xl italic tabular-nums text-clay">
                           {activeIndex + 1} / {visibleItems.length}
                         </span>
                         <GalleryArrow
@@ -338,7 +384,8 @@ export default function GalleryViewer({
                 )}
               </div>
 
-              <div className="mt-8 flex snap-x gap-3 overflow-x-auto pb-3 lg:mt-10">
+              {/* Rail: identical thumbnails, the current one under a small arch */}
+              <div className="-mx-4 mt-16 flex snap-x gap-4 overflow-x-auto px-4 pb-3 pt-4 lg:mx-0 lg:mt-20 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0">
                 {visibleItems.map((item, index) => {
                   const selected = index === activeIndex;
                   const thumbnail = item.thumbnail ?? item.image;
@@ -350,37 +397,37 @@ export default function GalleryViewer({
                       aria-label={item.title}
                       aria-pressed={selected}
                       onClick={() => showItem(index)}
-                      className={`w-[72%] shrink-0 snap-start rounded-[10px] border-2 p-2 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan sm:w-[40%] lg:w-0 lg:flex-1 ${
-                        selected
-                          ? "border-cyan bg-mist"
-                          : "border-transparent bg-mist/80 hover:border-line"
+                      className={`lift relative w-44 shrink-0 snap-start rounded-lg p-1.5 text-left sm:w-52 lg:w-auto ${
+                        selected ? "bg-spruce" : "bg-paper ring-1 ring-spruce/10"
                       }`}
                     >
+                      {selected ? (
+                        <ArchMarker className="absolute -top-4 left-1/2 h-5 w-4 -translate-x-1/2 text-clay" />
+                      ) : null}
                       <GalleryImage
                         key={`${item.id}-thumbnail`}
                         src={thumbnail.src}
                         alt={thumbnail.alt}
-                        sizes="(max-width: 640px) 72vw, (max-width: 1024px) 40vw, 20vw"
-                        className="rounded-md shadow-none"
+                        sizes="(min-width: 1024px) 240px, 208px"
+                        className="rounded-md"
                       />
-                      <span className="mt-2 block truncate text-sm font-medium text-slate-ink">
+                      <span className={`mt-2 block truncate px-1 pb-0.5 text-sm font-medium ${selected ? "text-linen" : "text-spruce"}`}>
                         {item.title}
                       </span>
                     </button>
                   );
                 })}
               </div>
-              <p className="mt-2 text-xs leading-5 text-slate-ink/60">
-                {content.note}
-              </p>
+              <p className="mt-4 text-sm leading-relaxed text-stone lg:hidden">{content.note}</p>
             </>
           )}
         </Container>
       </Section>
 
+      {/* ---------- Full-screen view ---------- */}
       {lightboxOpen && activeItem && (
         <div
-          className="fixed inset-0 z-[80] grid place-items-center bg-ink/95 p-4 sm:p-8"
+          className="fixed inset-0 z-[80] grid place-items-center bg-spruce/95 p-4 backdrop-blur-sm sm:p-8 [--focus:var(--clay-light)]"
           onClick={(event) => {
             if (event.target === event.currentTarget) {
               setLightboxOpen(false);
@@ -392,7 +439,7 @@ export default function GalleryViewer({
             role="dialog"
             aria-modal="true"
             aria-labelledby="gallery-lightbox-title"
-            className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-6xl flex-col items-center gap-4 sm:max-h-[calc(100dvh-4rem)]"
+            className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-5xl flex-col items-center gap-4 sm:max-h-[calc(100dvh-4rem)]"
             onKeyDown={(event) => {
               if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
                 event.stopPropagation();
@@ -400,48 +447,49 @@ export default function GalleryViewer({
             }}
           >
             <div className="flex w-full items-center justify-between gap-4">
-              <h2
-                id="gallery-lightbox-title"
-                className="min-w-0 truncate font-heading text-lg font-semibold text-copy sm:text-xl"
-              >
+              <h2 id="gallery-lightbox-title" className="min-w-0 truncate font-display text-xl text-linen sm:text-2xl">
                 {activeItem.title}
+                <span className="ml-3 font-display text-base italic text-clay-light">
+                  {activeIndex + 1} / {visibleItems.length}
+                </span>
               </h2>
               <button
                 ref={closeButtonRef}
                 type="button"
                 aria-label={controlLabels.close}
                 onClick={() => setLightboxOpen(false)}
-                className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-copy/10 text-copy transition-colors hover:bg-copy/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan"
+                className="pressable grid h-11 w-11 shrink-0 place-items-center rounded-t-3xl rounded-b-md border border-linen/25 text-linen hover:bg-linen hover:text-spruce"
               >
-                <X className="h-5 w-5" aria-hidden="true" />
+                <Icon icon="x" className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="relative w-full max-w-5xl">
+            <div className="relative w-full rounded-lg bg-spruce-2 p-2 sm:p-3">
               <GalleryImage
                 key={`${activeItem.id}-lightbox`}
                 src={activeItem.image.src}
                 alt={activeItem.image.alt}
-                sizes="(max-width: 1024px) 88vw, 78vw"
-                className="max-h-[calc(100dvh-10rem)] w-full max-w-5xl"
+                sizes="(max-width: 1024px) 92vw, 1000px"
+                fit="contain"
+                className="max-h-[calc(100dvh-12rem)]"
               />
               <GalleryArrow
                 direction="previous"
+                tone="dark"
                 label={`${controlLabels.previous}: ${activeItem.title}`}
                 onClick={() => showItem(activeIndex - 1)}
-                className="absolute left-2 top-1/2 z-10 -translate-y-1/2"
+                className="absolute left-4 top-1/2 z-10 -translate-y-1/2"
               />
               <GalleryArrow
                 direction="next"
+                tone="dark"
                 label={`${controlLabels.next}: ${activeItem.title}`}
                 onClick={() => showItem(activeIndex + 1)}
-                className="absolute right-2 top-1/2 z-10 -translate-y-1/2"
+                className="absolute right-4 top-1/2 z-10 -translate-y-1/2"
               />
             </div>
 
-            <p className="max-w-3xl text-center text-sm leading-6 text-copy/75">
-              {activeItem.description}
-            </p>
+            <p className="max-w-2xl text-center text-body text-linen/75">{activeItem.description}</p>
           </div>
         </div>
       )}
