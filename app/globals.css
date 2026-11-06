@@ -635,3 +635,68 @@ select {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- Chat widget: the visitor pass and its doorway launcher ---------- */
+@layer components {
+  /* Phones: a bottom sheet. Larger screens: a pass floating above the door. */
+  .chat-pass {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: min(86dvh, 40rem);
+  }
+
+  @media (min-width: 640px) {
+    .chat-pass {
+      left: auto;
+      right: 1.5rem;
+      bottom: 6.75rem;
+      width: min(25rem, calc(100vw - 3rem));
+      height: min(36rem, calc(100dvh - 9rem));
+    }
+  }
+
+  .chat-door {
+    perspective: 240px;
+    box-shadow:
+      0 0 0 1px rgba(244, 249, 251, 0.14),
+      3px 3px 0 rgba(2, 18, 24, 0.35);
+    transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .chat-door:active {
+    transform: translate(1px, 1px) scale(0.97);
+  }
+
+  .chat-door-leaf {
+    transform-origin: left center;
+    transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: inset -1px 0 0 rgba(2, 18, 24, 0.25);
+  }
+
+  .chat-door:hover .chat-door-leaf,
+  .chat-door:focus-visible .chat-door-leaf,
+  .chat-door[data-open] .chat-door-leaf {
+    transform: rotateY(-38deg);
+  }
+
+  .chat-typing-door {
+    animation: chat-door-bob 900ms ease-in-out infinite alternate both;
+  }
+
+  .chat-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(4, 30, 38, 0.2) transparent;
+  }
+}
+
+@keyframes chat-door-bob {
+  from {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+  to {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
