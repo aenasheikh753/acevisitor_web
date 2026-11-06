@@ -61,7 +61,7 @@ export default function Navbar({ content }: NavbarProps) {
           <span className="font-display text-[1.375rem] leading-none tracking-[-0.02em] text-linen">{content.brand}</span>
         </Link>
 
-        <div className="hidden min-w-0 items-center justify-center gap-0.5 lg:flex">
+        <div className="hidden min-w-0 items-center justify-center gap-0.5 xl:flex">
           {content.links.map((link) => (
             <Link
               key={link.href}
@@ -77,7 +77,7 @@ export default function Navbar({ content }: NavbarProps) {
           ))}
         </div>
 
-        <div className="hidden items-center justify-self-end gap-3 lg:flex">
+        <div className="hidden items-center justify-self-end gap-3 xl:flex">
           <Link
             href="/login"
             aria-current={isActive("/login") ? "page" : undefined}
@@ -90,7 +90,7 @@ export default function Navbar({ content }: NavbarProps) {
           </Button>
         </div>
 
-        <div className="col-start-3 justify-self-end lg:hidden">
+        <div className="col-start-3 justify-self-end xl:hidden">
           <Button
             variant="ghost"
             tone="dark"
@@ -111,7 +111,7 @@ export default function Navbar({ content }: NavbarProps) {
       {isOpen ? (
         <div
           id="mobile-navigation"
-          className="h-[calc(100dvh-var(--nav-h))] overflow-y-auto border-t border-linen/10 bg-spruce lg:hidden"
+          className="h-[calc(100dvh-var(--nav-h))] overflow-y-auto border-t border-linen/10 bg-spruce xl:hidden"
         >
           <div className="container-page flex flex-col pb-10 pt-6">
             <ul className="flex flex-col">

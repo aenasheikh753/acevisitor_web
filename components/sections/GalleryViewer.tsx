@@ -124,6 +124,8 @@ export default function GalleryViewer({
   const expandButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const tabListRef = useRef<HTMLDivElement>(null);
+  const railRef = useRef<HTMLDivElement>(null);
   const activeItem =
     visibleItems.length > 0
       ? visibleItems[activeIndex % visibleItems.length]
@@ -149,6 +151,21 @@ export default function GalleryViewer({
       showItem(activeIndex + 1);
     }
   }
+
+  // On small screens the tab row and rail scroll sideways: keep the current item in view.
+  useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    for (const list of [tabListRef.current, railRef.current]) {
+      if (!list || list.scrollWidth <= list.clientWidth) continue;
+      const child = list.children[activeIndex] as HTMLElement | undefined;
+      if (!child) continue;
+      const listBox = list.getBoundingClientRect();
+      const childBox = child.getBoundingClientRect();
+      if (childBox.left < listBox.left || childBox.right > listBox.right) {
+        list.scrollBy({ left: childBox.left - listBox.left - 16, behavior: reduceMotion ? "auto" : "smooth" });
+      }
+    }
+  }, [activeIndex]);
 
   useEffect(() => {
     if (!lightboxOpen) {
@@ -229,8 +246,8 @@ export default function GalleryViewer({
       {/* ---------- Hero ---------- */}
       <Section tone="dark" spacing="hero" className="relative overflow-hidden">
         <Container>
-          <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
-            <div className="lg:col-span-6">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-10">
+            <div className="min-w-0 lg:col-span-6">
               <p className="margin-note text-clay-light">{content.eyebrow}</p>
               <h1 className="mt-7 text-h1 text-linen">
                 <Headline text={content.title} animated emphasisClassName="text-clay-light" />
@@ -271,13 +288,14 @@ export default function GalleryViewer({
           ) : (
             <>
               <div
-                className="grid gap-12 lg:grid-cols-12 lg:gap-10"
+                className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10"
                 onKeyDown={handleGalleryKeyDown}
                 tabIndex={0}
               >
                 {/* Exhibit index */}
-                <div className="lg:col-span-4 lg:pt-10">
+                <div className="min-w-0 lg:col-span-4 lg:pt-10">
                   <div
+                    ref={tabListRef}
                     role="tablist"
                     aria-label={content.title}
                     className="-mx-4 flex gap-1 overflow-x-auto px-4 pb-2 lg:mx-0 lg:flex-col lg:gap-0 lg:overflow-visible lg:border-t lg:border-spruce/15 lg:px-0 lg:pb-0"
@@ -385,7 +403,7 @@ export default function GalleryViewer({
               </div>
 
               {/* Rail: identical thumbnails, the current one under a small arch */}
-              <div className="-mx-4 mt-16 flex snap-x gap-4 overflow-x-auto px-4 pb-3 pt-4 lg:mx-0 lg:mt-20 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0">
+              <div ref={railRef} className="-mx-4 mt-16 flex snap-x gap-4 overflow-x-auto px-4 pb-3 pt-4 lg:mx-0 lg:mt-20 lg:grid lg:grid-cols-5 lg:overflow-visible lg:px-0">
                 {visibleItems.map((item, index) => {
                   const selected = index === activeIndex;
                   const thumbnail = item.thumbnail ?? item.image;
