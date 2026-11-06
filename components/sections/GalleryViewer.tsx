@@ -13,7 +13,6 @@ import {
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
-import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import ImageSlot from "@/components/ui/ImageSlot";
 import Section from "@/components/ui/Section";
@@ -223,9 +222,6 @@ export default function GalleryViewer({
                 {content.description}
               </p>
             </div>
-            <Button href={content.ctaHref} variant="accent" className="w-fit">
-              {content.ctaLabel}
-            </Button>
           </div>
         </Container>
       </Section>

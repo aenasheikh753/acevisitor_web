@@ -3,29 +3,27 @@ import Image from "next/image";
 type FramedImageProps = {
   src: string;
   alt: string;
-  /** Natural pixel size of the file; the frame keeps this aspect ratio and never renders wider than it. */
+  /** Natural pixel size of the file. The image always renders at this aspect ratio — never cropped or stretched. */
   width: number;
   height: number;
   sizes: string;
+  /** Size the frame with Tailwind utilities, e.g. "mx-auto max-w-md". */
   className?: string;
   priority?: boolean;
-  /** Optional tighter display cap (any CSS length); the natural pixel width always applies too. */
-  maxWidth?: string;
   /** Frame shape: a crisp print ("square"), a soft doorway top ("soft"), or a full arch ("arch"). */
   shape?: "square" | "soft" | "arch";
-  /** Override the natural aspect ratio (image is cropped with object-cover). */
-  aspect?: string;
 };
 
 const shapeClasses = {
-  square: "rounded-[0.5rem]",
+  square: "rounded-lg",
   soft: "arch-soft",
   arch: "arch",
 };
 
 /**
- * A raster image shown in a paper frame with the offset shadow.
- * It is never upscaled beyond its natural width.
+ * A photo in a paper frame with the offset shadow. The image is shown at its real
+ * proportions (`h-auto w-full`); limit its size with a `max-w-*` class so it is
+ * always displayed well below its pixel width and stays sharp.
  */
 export default function FramedImage({
   src,
@@ -35,15 +33,10 @@ export default function FramedImage({
   sizes,
   className = "",
   priority = false,
-  maxWidth,
   shape = "square",
-  aspect,
 }: FramedImageProps) {
   return (
-    <div
-      className={`framed-media relative w-full overflow-hidden ${shapeClasses[shape]} ${className}`}
-      style={{ maxWidth: maxWidth ? `min(${width}px, ${maxWidth})` : `${width}px`, aspectRatio: aspect ?? `${width} / ${height}` }}
-    >
+    <div className={`framed-media relative w-full overflow-hidden ${shapeClasses[shape]} ${className}`}>
       <Image
         src={src}
         alt={alt}
@@ -52,7 +45,7 @@ export default function FramedImage({
         sizes={sizes}
         quality={90}
         priority={priority}
-        className="h-full w-full object-cover"
+        className="block h-auto w-full"
       />
     </div>
   );
